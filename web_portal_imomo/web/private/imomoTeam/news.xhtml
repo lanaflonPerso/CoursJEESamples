@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">News Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart divBorder">
+                <div class="divMainPart">  
+                    <h:form>
+                    <p:commandLink title="Add news" ajax="false" action="#{gameNewsController.create()}"  >  
+                        <h:outputText styleClass="ui-icon ui-icon-circle-plus"/>   
+                    </p:commandLink>
+                    </h:form>
+                    <h:form id="newsForm">
+                        <h:panelGrid columns="2" id="newsFormContainer">   
+                            
+                            <!-- Table of News -->
+                            
+                            <p:dataTable id="newsDataTable" var="gameNews" value="#{gameNewsController.allNews}" widgetVar="gameQuestionsTable"   
+                                         emptyMessage="No news found" resizableColumns="true">  
+                            <p:column headerText="News Title" width="20%" styleClass="word-wrap">                                
+                                <ui:repeat value="#{gameNews.list}" var="gameNewsLocal">
+                                    [<h:outputText value="#{gameNewsLocal.gameNewsLocalPK.cultureCode}" />] <h:outputText value="#{gameNewsLocal.title}" /> <br />                                        </ui:repeat>         
+                            </p:column>              
+                                <p:column headerText="News Text" width="40%" styleClass="word-wrap">                                
+                                <ui:repeat value="#{gameNews.list}" var="gameNewsLocal">
+                                    [<h:outputText value="#{gameNewsLocal.gameNewsLocalPK.cultureCode}" />] <h:outputText value="#{gameNewsLocal.text}" /> <br />                                        </ui:repeat>         
+                            </p:column>              
+                            <p:column headerText="DateTimeUTC" width="20%" styleClass="word-wrap">                                
+                                <h:outputText value="#{gameNews.gameNews.dateTimeUTC}"/>                                
+                            </p:column>
+              
+                            <p:column headerText="Actions" width="7%" styleClass="word-wrap"> 
+                                <p:commandLink action="#{gameNewsController.test(gameNewsController.selectedNewsContainer.gameNews.newsID)}" oncomplete="confirmDeleteNewsDialog.show()" title="Delete" update=":deleteNewsForm:confirmDeleteNewsDialog">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/> 
+                                    <f:setPropertyActionListener value="#{gameNews}" target="#{gameNewsController.selectedNewsContainer}"/>
+                                </p:commandLink>                               
+                            </p:column>
+                                <p:column headerText="Translations" width="9%" styleClass="word-wrap"> 
+                                <p:commandLink oncomplete="addNewsLocalEnDialog.show()" title="Add English translation" update=":addNewsLocalEnForm:addnewslocalen">                                          
+                                    <p:graphicImage value="/resources/css/EN_add.jpg" styleClass="icon-tz-add"/>
+                                    <f:setPropertyActionListener value="#{gameNews}" target="#{gameNewsController.selectedNewsContainer}"/>
+                                </p:commandLink>   
+                                <h:outputText value="     " />                                
+                                <p:commandLink action="#{gameNewsController.test(gameNewsController.selectedNewsContainer.gameNews.newsID)}" oncomplete="confirmDeleteNewsLocalEnDialog.show()" title="Delete" update=":deleteNewsLocalEnForm:confirmDeleteNewsLocalEnDialog">                                      
+                                    <p:graphicImage value="/resources/css/EN_delete.jpg" styleClass="icon-tz-delete"/>
+                                    <f:setPropertyActionListener value="#{gameNews}" target="#{gameNewsController.selectedNewsContainer}"/>
+                                </p:commandLink>
+                                <br /><br />
+                                <p:commandLink oncomplete="addNewsLocalSwDialog.show()" title="Add Swahili translation" update=":addNewsLocalSwForm:addnewslocalsw">  
+                                    <p:graphicImage value="/resources/css/SW_add.jpg" styleClass="icon-tz-add"/>
+                                    <f:setPropertyActionListener value="#{gameNews}" target="#{gameNewsController.selectedNewsContainer}"/>
+                                </p:commandLink> 
+                                <h:outputText value="     " />
+                                <p:commandLink action="#{gameNewsController.test(gameNewsController.selectedNewsContainer.gameNews.newsID)}" oncomplete="confirmDeleteNewsLocalSwDialog.show()" title="Delete" update=":deleteNewsLocalSwForm:confirmDeleteNewsLocalSwDialog">  
+                                    <p:graphicImage value="/resources/css/SW_delete.jpg" styleClass="icon-tz-delete"/>
+                                    <f:setPropertyActionListener value="#{gameNews}" target="#{gameNewsController.selectedNewsContainer}"/>
+                                </p:commandLink>                                
+                            </p:column>     
+                        </p:dataTable>
+                            
+                        </h:panelGrid>
+                    </h:form>
+                    <br /><br />                  
+                    
+<!--                Add News Dialog Box
+                    
+-->                 <h:form id="addNewsForm">
+                    <p:dialog id="addnews" header="Add a new news" showEffect="fade" widgetVar="addNewsDialog" modal="true">  
+                        <p:outputPanel id="addPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                                <br/><br/>    
+                                <h:outputText value="A new news item is being created." /> 
+                                <br/><br/>
+                                <p:commandButton  value="Add news" update="" ajax="false" action="#{gameNewsController.create}" />
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+
+<!--                 Delete News Dialog Box    -->
+
+                    <h:form id="deleteNewsForm">
+                    <p:confirmDialog id="confirmDeleteNewsDialog" header="Delete news" severity="alert" widgetVar="confirmDeleteNewsDialog"
+                                     message="Are you sure about deleting this news (id = #{gameNewsController.selectedNewsContainer.gameNews.newsID})?">
+                            <p:commandButton id="confirm" value="Yes Sure" update=":newsForm:newsDataTable" oncomplete="confirmDeleteNewsDialog.hide();" actionListener="#{gameNewsController.delete('/private/imomoTeam/news')}"/>
+                            <p:commandButton id="decline" value="Not Yet" onclick="confirmDeleteNewsDialog.hide();" type="button"/>
+                    </p:confirmDialog>    
+                   </h:form>
+
+<!--                Add News Local En Dialog Box     -->
+
+                    <h:form id="addNewsLocalEnForm">    
+                    <p:dialog id="addnewslocalen" header="Add English translation" showEffect="fade" widgetVar="addNewsLocalEnDialog" modal="true">                          <p:outputPanel id="addNewsLocalEnPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="newsID" value="News ID: " /><br/>
+                            <h:inputText id="newsID" value="#{gameNewsController.selectedNewsContainer.gameNews.newsID}" disabled="true"/> 
+                            <br/><br/>                            
+                            <h:outputLabel for="titleEN" value="Add English title: " /> <br/>                                
+                            <h:inputText id="titleEN" value="#{gameNewsLocalController.newSelected.title}"/>                               
+                            <p:watermark for="titleEN" value="Add English title"/>
+                            <br/><br/>
+                            <h:outputLabel for="textEN" value="Add English content: " /> <br/>                                
+                            <h:inputText id="textEN" value="#{gameNewsLocalController.selected.text}"/>                               
+                            <p:watermark for="textEN" value="Add English content"/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gameNewsLocalController.create}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form>  
+
+<!--                Add News Local Sw Dialog Box     -->
+
+                    <h:form id="addNewsLocalSwForm">    
+                    <p:dialog id="addnewslocalsw" header="Add Swahili translation" showEffect="fade" widgetVar="addNewsLocalSwDialog" modal="true">                          <p:outputPanel id="addNewsLocalSwPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="newsID" value="News ID: " /><br/>
+                            <h:inputText id="newsID" value="#{gameNewsController.selectedNewsContainer.gameNews.newsID}" disabled="true"/> 
+                            <br/><br/>                            
+                            <h:outputLabel for="titleSW" value="Add Swahili title: " /> <br/>                                
+                            <h:inputText id="titleSW" value="#{gameNewsLocalController.newSelected.title}"/>                               
+                            <p:watermark for="titleSW" value="Add Swahili title"/>
+                            <br/><br/>
+                            <h:outputLabel for="textSW" value="Add Swahili contswt: " /> <br/>                                
+                            <h:inputText id="textSW" value="#{gameNewsLocalController.selected.text}"/>                               
+                            <p:watermark for="textSW" value="Add Swahili contswt"/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gameNewsLocalController.createSW}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form>  
+
+<!--                Delete News Local En Dialog Box     -->
+                    <h:form id="deleteNewsLocalEnForm">
+                        <p:confirmDialog id="confirmDeleteNewsLocalEnDialog" header="Delete English translation" severity="alert" widgetVar="confirmDeleteNewsLocalEnDialog" message="Are you sure about deleting the English translation?">
+                            <p:commandButton id="confirm" value="Yes" update=":newsForm:newsDataTable" oncomplete="confirmDeleteNewsLocalEnDialog.hide();" actionListener="#{gameNewsLocalController.delete('/private/imomoTeam/news')}"/>
+                            <p:commandButton id="decline" value="No" onclick="confirmDeleteNewsLocalEnDialog.hide();" type="button"/>
+                        </p:confirmDialog>    
+                    </h:form>
+
+<!--                Delete News Local Sw Dialog Box     -->
+                    <h:form id="deleteNewsLocalSwForm">
+                        <p:confirmDialog id="confirmDeleteNewsLocalSwDialog" header="Delete Swahili translation" severity="alert" widgetVar="confirmDeleteNewsLocalSwDialog" message="Are you sure about deleting the Swahili translation?">
+                            <p:commandButton id="confirm" value="Yes" update=":newsForm:newsDataTable" oncomplete="confirmDeleteNewsLocalSwDialog.hide();" actionListener="#{gameNewsLocalController.deleteSW('/private/imomoTeam/news')}"/>
+                            <p:commandButton id="decline" value="No" onclick="confirmDeleteNewsLocalSwDialog.hide();" type="button"/>
+                        </p:confirmDialog>    
+                    </h:form>
+                </div>
+                <div style="clear:both;"></div>
+            </div> 
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StationCreateDlg" widgetVar="StationCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.CreateStationTitle}">
+
+            <h:form id="StationCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{stationController.selected != null}">
+
+                        <p:outputLabel value="#{bundle.CreateStationLabel_uid}" for="uid" />
+                        <p:inputText id="uid" value="#{stationController.newSelected.uid}" title="#{bundle.CreateStationTitle_uid}" required="true" requiredMessage="#{bundle.CreateStationRequiredMessage_uid}"/>
+
+                        <p:outputLabel value="#{bundle.CreateStationLabel_siteID}" for="siteID" />
+                        <p:selectOneMenu id="siteID" value="#{stationController.selected.siteID}" required="true" requiredMessage="#{bundle.EditStationRequiredMessage_siteID}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sitesController.list}"
+                                           var="siteIDItem"
+                                           itemValue="#{siteIDItem}"
+                                           itemLabel="#{siteIDItem.siteID.toString()}"
+                                           />
+                            <f:converter binding="#{sitesConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateStationLabel_stationTypeID}" for="stationTypeID" />
+                        <p:selectOneMenu id="stationTypeID" value="#{stationController.selected.stationTypeID}" required="true" requiredMessage="#{bundle.EditStationRequiredMessage_stationTypeID}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{stationTypeController.list}"
+                                           var="stationTypeIDItem"
+                                           itemValue="#{stationTypeIDItem}"
+                                           itemLabel="#{stationTypeIDItem.stationTypeID.toString()}"
+                                           />
+                            <f:converter binding="#{stationTypeConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{stationController.create('/private/admin/station/')}" value="#{bundle.Save}" update="display :StationListForm:datalist :growlStation" oncomplete="StationCreateDialog.hide();"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="StationCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

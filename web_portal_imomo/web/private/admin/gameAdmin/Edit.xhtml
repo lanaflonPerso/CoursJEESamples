@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">User Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <div class="divMainPart">
+                    <h:panelGroup id="messagePanel" layout="block">
+                        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                    </h:panelGroup>
+                    <h:form id="formEditUser">
+                        <p:panel header="Edit user">
+
+                            <p:outputLabel styleClass="editUserComponent" value="#{bundle.EditUserLabel_userID}" for="userID" />
+                            <p:inputText styleClass="editUserComponent"  id="userID" value="#{userController.selected.userID}" title="#{bundle.EditUserTitle_userID}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_userID}"/>
+                            <br/>
+
+                            <p:outputLabel styleClass="editUserComponent"  value="#{bundle.EditUserLabel_firstname}" for="firstname" />
+                            <p:inputText styleClass="editUserComponent"  id="firstname" value="#{userController.selected.firstname}" title="#{bundle.EditUserTitle_firstname}"  required="true" />
+                            <br/>
+
+                            <p:outputLabel styleClass="editUserComponent"  value="#{bundle.EditUserLabel_lastname}" for="lastname" />
+                            <p:inputText  styleClass="editUserComponent" id="lastname" value="#{userController.selected.lastname}" title="#{bundle.EditUserTitle_lastname}"  required="true" />
+                            <br/>
+
+                            <p:outputLabel styleClass="editUserComponent"  value="#{bundle.EditUserLabel_phoneNb}" for="phoneNb" />
+                            <p:inputText styleClass="editUserComponent"  id="phoneNb" value="#{userController.selected.phoneNb}" title="#{bundle.EditUserTitle_phoneNb}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_phoneNb}"/>
+                            <br/>
+
+                            <p:outputLabel  styleClass="editUserComponent" value="#{bundle.EditUserLabel_nickname}" for="nickname" />
+                            <p:inputText styleClass="editUserComponent"  id="nickname" value="#{userController.selected.nickname}" title="#{bundle.EditUserTitle_nickname}" required="true"/>
+                            <br/>
+
+                            <p:outputLabel  styleClass="editUserComponent" value="new password" for="newPassword" />
+                            <p:password styleClass="editUserComponent"  id="newPassword" value="#{userController.newPassword}" />
+                            <br/>
+
+                            <p:outputLabel styleClass="editUserComponent"  value="#{bundle.EditUserLabel_gsmTerminalID}" for="gsmTerminalID" />
+                            <p:inputText styleClass="editUserComponent"  id="gsmTerminalID" value="#{userController.selected.gsmTerminalID}" title="#{bundle.EditUserTitle_gsmTerminalID}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_gsmTerminalID}"/>
+                            <br/>
+
+                            <p:outputLabel  styleClass="editUserComponent" value="#{bundle.EditUserLabel_culture}" for="culture" />
+                            <p:inputText styleClass="editUserComponent"  id="culture" value="#{userController.selected.culture}" title="#{bundle.EditUserTitle_culture}" />
+                            <br/>
+
+                            <p:outputLabel  styleClass="editUserComponent" value="#{bundle.EditUserLabel_gameUser}" for="gameUser" />
+                            <h:selectOneMenu  styleClass="editUserComponent" id="gameUser" value="#{userController.selected.gameUser}" >
+                                <f:selectItems value="#{gameUserController.itemsAvailableSelectOne}"/>
+                            </h:selectOneMenu>
+                            <br/>
+
+                            <p:selectManyMenu value="#{userController.selected.listRoles}" showCheckbox="true" >
+                                <f:selectItems value="#{roleController.itemsAvailableSelectMany}"/>
+                            </p:selectManyMenu>
+                            <br/>
+
+                            <p:selectBooleanCheckbox value="#{userController.selected.activated}" itemLabel="active"/>
+                            <br/>
+
+                            <p:commandButton styleClass="editUserComponent" action="#{userController.update}" value="#{bundle.EditUserSaveLink}"/>
+                            <br />
+                            <p:commandButton styleClass="editUserComponent" action="#{userController.prepareList}" value="Return to users admin" immediate="true"/>
+
+
+                        </p:panel>
+                    </h:form>
+
+                    <h:form>
+
+                    </h:form>
+
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+     
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Game Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <div class="divMainPart">                    
+                    <p:commandLink title="Add question" oncomplete="addDialog.show()">  
+                        <h:outputText styleClass="ui-icon ui-icon-circle-plus"/>   
+                    </p:commandLink>
+                   <br/><br/> Questions and Answers with TreeTable<br/><br/>
+                   <h:form id="form">  
+                       <p:growl id="messages" showDetail="true" /> 
+                       <p:treeTable id="treetable" value="#{gameQuestionController.root}" var="container"> 
+                           <p:ajax event="select" listener="#{gameQuestionController.onNodeSelect}" update=":form:messages" />
+                            <p:column>  
+                                <f:facet name="header">Question</f:facet>  
+                                <h:outputText value="#{container.gameQuestion.keyword}" />  
+                            </p:column>  
+                            <p:column> 
+                                <f:facet name="header">resp</f:facet>  
+                                <ui:repeat value="#{container.listGamePossibleResponseLocal}" var="gamePossibleResponseLocal">
+                                    <h:outputText value="#{gamePossibleResponseLocal.text}" >
+                                    </h:outputText> <br />                                
+                                </ui:repeat>         
+                           </p:column>  
+                            <p:column headerText="Actions"> 
+                                <p:commandLink action="#{gameQuestionController.toto()}" title="Edit">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{container}" target="#{gameQuestionController.selectedContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Delete">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Add answer">  
+                                    <h:outputText styleClass="ui-icon ui-icon-plusthick"/>   
+                                </p:commandLink>
+                            </p:column>
+                        </p:treeTable>  
+                    </h:form>  
+<!--                    <br/><br/>Table of questions + table of answers<br/><br/>                               
+                    <h:form id="form_q_a">  
+                        <p:dataTable id="dataTable3" value="#{gameQuestionController.allQuestion}" var="container"> 
+                            <p:column headerText="Question">  
+                                <h:outputText value="#{container.gameQuestion.keyword}" />  
+                            </p:column>  
+                            <p:column headerText="Answer">                                 
+                                <ui:repeat value="#{container.listGamePossibleResponseLocal}" var="gamePossibleResponseLocal">
+                                    <h:outputText value="#{gamePossibleResponseLocal.text}" >
+                                    </h:outputText> <br />                                
+                                </ui:repeat>         
+                           </p:column>  
+                            <p:column headerText="Actions"> 
+                                <p:commandLink action="#{gameQuestionController.toto()}" title="Edit">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{container}" target="#{gameQuestionController.selectedContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Delete">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Add answer">  
+                                    <h:outputText styleClass="ui-icon ui-icon-plusthick"/>   
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>  
+                    </h:form>  
+                    <br /><br />                    -->
+                    <br/><br/>Table of questions + idea to have the table of answers at onclick<br/><br/> 
+                    <h:form id="questionForm">
+                        <h:panelGrid columns="2" id="questionFormContainer">    
+                            <p:dataTable id="questionDataTable" var="gameQuestion" value="#{gameQuestionController.allQuestion}" widgetVar="gameQuestionsTable"   
+                                     emptyMessage="No question found">  
+                            <p:column headerText="Question">                                
+                                <ui:repeat value="#{gameQuestion.list}" var="gameQuestionLocal">
+                                    [ <h:outputText value="#{gameQuestionLocal.cultureCode}" /> ] <h:outputText value="#{gameQuestionLocal.text}" /> <br />                                
+                                </ui:repeat>         
+                            </p:column>                         
+                            <p:column headerText="Keyword">                                
+                                <h:outputText value="#{gameQuestion.gameQuestion.keyword}" />                                
+                            </p:column>
+                            <p:column headerText="Variable">                                
+                                <h:outputText value="#{gameQuestion.gameQuestion.variableID.variableName.term}" />                                
+                            </p:column>
+                            <p:column headerText="Resp.Allowed">                                
+                                <h:outputText value="#{gameQuestion.gameQuestion.userResponseAllowed}" />                                
+                            </p:column>                            
+                            <p:column headerText="Time">
+                                <h:outputText value="#{gameQuestion.gameQuestion.timeBetweenResponses}" />   
+                            </p:column>                            
+                            <p:column headerText="Actions"> 
+                                <p:commandLink action="#{gameQuestionController.toto()}" title="Edit">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Delete">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Add answer">  
+                                    <h:outputText styleClass="ui-icon ui-icon-plusthick"/>   
+                                </p:commandLink>                                
+                                <p:commandLink action="#{gameQuestionController.test(actionEvent)}" title="Display answers" update=":questionForm:displayAnswers">  
+                                    <h:outputText styleClass="ui-icon ui-icon-circle-arrow-e"/>   
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>                                
+                            </p:column>
+                        </p:dataTable>
+                        <h:panelGroup layout="block" id="displayAnswers">
+                            <p:dataTable id="answerDataTable" var="gameResponse" value="#{gameQuestionController.getGamePossibleResponse(gameQuestionController.selectedQuestionContainer.getGameQuestion().getQuestionID())}" widgetVar="gameResponseTable"   
+                                     emptyMessage="No answer found">                                
+                                <p:column headerText="Answer">                                                                   
+                                     <ui:repeat value="#{gamePossibleResponseLocalController.getallPossibleResponseLocal(gameResponse.possibleResponseID)}" var="gameResponseLocal">
+                                    [ <h:outputText value="#{gameResponseLocal.cultureCode}" /> ] <h:outputText value="#{gameResponseLocal.text}" /> <br />                                
+                                </ui:repeat>  
+                                </p:column>                            
+                                <p:column headerText="Value">                                
+                                    <h:outputText value="#{gameResponse.value}" />                                
+                                </p:column> 
+                                <p:column headerText="Keyword">                                
+                                    <h:outputText value="#{gameResponse.keyword}" />                                
+                                </p:column>
+                               <p:column headerText="Actions"> 
+                                <p:commandLink action="#{gameQuestionController.toto()}" title="Edit">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Delete">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                </p:commandLink>                                                           
+                            </p:column>
+                            </p:dataTable>                           
+                        </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                    <br /><br /> 
+                    <h:form>
+                    <p:dialog id="addques" header="Add a new question" showEffect="fade" widgetVar="addDialog" modal="true">  
+                        <p:outputPanel id="addPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            <h:panelGrid  columns="2" cellpadding="5">  
+                                <ui:repeat value="#{addBean.culture}" var="addBean" varStatus="iteration" >  
+                                    <h:outputLabel for="name2" value="Question: " /> 
+                                    <h:inputText id="name2" value="#{addBean.culture[iteration.index]}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/>
+                                <h:panelGrid  columns="2" cellpadding="5">  
+                                    <h:outputLabel for="name2" value="Variable: " /> 
+                                    <p:dataTable id="cars" var="variable" value="#{addBean.variable}" rowKey="#{variable}"  
+                                                 selection="#{addBean.selectedCar}" selectionMode="single"  >  
+                                        <p:column >  
+                                            #{variable}  
+                                        </p:column>  
+                                    </p:dataTable>     
+                                    <h:outputLabel for="key" value="Keyword SMS: " />  
+                                    <h:inputText id="key" value="#{addBean.keyword}"   />
+                                    <h:outputLabel for="time" value="Time Between answers: " />  
+                                    <h:inputText id="time" value="#{addBean.time}" />  
+                                    <h:outputLabel for="allow" value="Exact answers allowed: " />  
+                                    <p:selectBooleanButton offLabel="No" onLabel="Yes" id="allow" value="#{addBean.allow}"  />    
+                                    <p:commandButton  value="Save" update="" ajax="false"/>
+                                </h:panelGrid>
+                            </h:panelGrid>    
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+                    <!--    
+                    <br /><br />
+                    <h:form>
+                        <p:dataTable id="dataTable2" var="gamePossibleResponse" value="#{gamePossibleResponseController.allPossibleResponse}" widgetVar="gamePossibleResponsesTable"   
+                                     emptyMessage="No response found" >  
+                            <p:column headerText="Answer">                                
+                                <ui:repeat value="#{gamePossibleResponse.list}" var="gamePossibleResponseLocal">
+                                    <h:outputText value="#{gamePossibleResponseLocal.text}" /> <br />                                
+                                </ui:repeat>         
+                            </p:column>     
+                            <p:column headerText="Lang.">                                
+                                <ui:repeat value="#{gamePossibleResponse.list}" var="gamePossibleResponseLocal">
+                                    <h:outputText value="#{gamePossibleResponseLocal.cultureCode}" /> <br />                                
+                                </ui:repeat>         
+                            </p:column>
+                            <p:column headerText="Keyword">                                
+                                <h:outputText value="#{gamePossibleResponse.gamePossibleResponse.keyword}" />                                
+                            </p:column>
+                            <p:column headerText="Value">                                
+                                <h:outputText value="#{gamePossibleResponse.gamePossibleResponse.value}" />                                
+                            </p:column>                 
+                            <p:column headerText="QuestionID">                                
+                                <h:outputText value="#{gamePossibleResponse.gamePossibleResponse.questionID.questionID}" />                                
+                            </p:column>    
+                        </p:dataTable>
+                    </h:form>-->
+                   <!--                    <br/><br/>Table of questions + table of answers<br/><br/>                               
+                    <h:form id="form_q_a">  
+                        <p:dataTable id="dataTable3" value="#{gameQuestionController.allQuestion}" var="container"> 
+                            <p:column headerText="Question">  
+                                <h:outputText value="#{container.gameQuestion.keyword}" />  
+                            </p:column>  
+                            <p:column headerText="Answer">                                 
+                                <ui:repeat value="#{container.listGamePossibleResponseLocal}" var="gamePossibleResponseLocal">
+                                    <h:outputText value="#{gamePossibleResponseLocal.text}" >
+                                    </h:outputText> <br />                                
+                                </ui:repeat>         
+                           </p:column>  
+                            <p:column headerText="Actions"> 
+                                <p:commandLink action="#{gameQuestionController.toto()}" title="Edit">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{container}" target="#{gameQuestionController.selectedContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Delete">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                </p:commandLink>
+                                <p:commandLink oncomplete="/private/admin/gameAdmin/List" title="Add answer">  
+                                    <h:outputText styleClass="ui-icon ui-icon-plusthick"/>   
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>  
+                    </h:form>  -->
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

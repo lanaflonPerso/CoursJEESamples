@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Game Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <h:form id="form">  
+                    <p:growl id="messages" />  
+                    <p:toolbar>  
+                        <p:toolbarGroup align="left">  
+                            <p:commandButton value="Add Question" update=":form:addPanel" oncomplete="addDialog.show()" icon="ui-icon-document" >  
+                                <f:setPropertyActionListener value="#{addBean}"   
+                                                             target="#{addBean}" />  
+                            </p:commandButton>
+
+                            <p:commandButton value="Add Answer" update=":form:addPanel8" oncomplete="addDialog8.show()" icon="ui-icon-document">  
+                                <f:setPropertyActionListener value="#{addBean}"   
+                                                             target="#{addBean}" />  
+                            </p:commandButton>  
+                            <p:commandButton value="Refresh" update=":form:treetable"  actionListener="#{addBean.refresh()}" icon="ui-icon-refresh"  />  
+                        </p:toolbarGroup>  
+                    </p:toolbar> 
+                    <p:treeTable id="treetable" value="#{addBean.x.root}" var="selected">  
+                        <p:column style="width:25%">  
+                            <f:facet name="header">  
+                                Question  
+                            </f:facet>  
+                            <h:outputText value="#{selected.x}" />  
+                        </p:column>  
+                        <p:column style="width:5%">  
+                            <f:facet name="header">  
+                                Variable
+                            </f:facet>  
+                            <h:outputText value="#{selected.variable}" />  
+                        </p:column>  
+                        <p:column style="width:5%">  
+                            <f:facet name="header">  
+                                Value
+                            </f:facet>  
+                            <h:outputText value="#{selected.val}" />  
+                        </p:column>     
+
+                        <p:column style="width:5%">  
+                            <f:facet name="header">  
+                                Allow exact answer  
+                            </f:facet>  
+                            <h:outputText value="#{selected.allow}" />  
+                        </p:column> 
+                        <p:column style="width:5%">  
+                            <f:facet name="header">  
+                                Keyword  
+                            </f:facet>  
+                            <h:outputText value="#{selected.key}" />  
+                        </p:column> 
+                        <p:column style="width:5%">  
+                            <f:facet name="header">  
+                                Time  
+                            </f:facet>  
+                            <h:outputText value="#{selected.time}" />  
+                        </p:column>  
+                        <p:column style="width:10%">  
+
+                            <p:commandButton value="Edit" update=":form:documentPanel5" oncomplete="documentDialog5.show()" icon="ui-icon-pencil">  
+                                <f:setPropertyActionListener value="#{selected}"   
+                                                             target="#{documentController.selectedDocument}" />  
+                            </p:commandButton> 
+                            <p:commandButton value="Delete" update=":form:documentPanel"  oncomplete="documentDialog.show()"  icon="ui-icon-close">  
+                                <f:setPropertyActionListener value="#{selected}"   
+                                                             target="#{documentController.selectedDocument}" /> 
+                            </p:commandButton>
+                        </p:column>  
+
+                    </p:treeTable>  
+
+                    <p:dialog id="delete" header="Delete" showEffect="fade" widgetVar="documentDialog" modal="true">  
+                        <p:outputPanel id="documentPanel">  
+                            <h:panelGrid  columns="2" cellpadding="5" rendered="#{not empty documentController.selectedDocument}">  
+                                <h:outputLabel for="name" value="Text: " />  
+                                <h:outputText id="name" value="#{documentController.selectedDocument.x}" style="font-weight:bold" />  
+                                <p:commandButton value="confirm" actionListener="#{documentController.delete()}" ajax="false" update=""/>
+                            </h:panelGrid>  
+                        </p:outputPanel>  
+                    </p:dialog>   
+
+                    <p:dialog id="edit" header="Edit" showEffect="fade" widgetVar="documentDialog5" modal="true">  
+                        <p:outputPanel id="documentPanel5">  
+                            <h:panelGrid  columns="2" cellpadding="5" rendered="#{documentController.selectedDocument.type=='q'}" >  
+                                <ui:repeat value="#{documentController.selectedDocument.text}" var="selectedDocument" varStatus="iteration" >  
+                                    <h:outputLabel for="name2" value="Question: " /> 
+                                    <h:inputText id="name2" value="#{documentController.selectedDocument.text[iteration.index]}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/>
+                                <h:outputLabel for="name20" value="Variable: " /> 
+                                <p:dataTable id="cars0" var="variable" value="#{addBean.variable}" rowKey="#{variable}"   
+                                             selection="#{documentController.selectedDocument.variable}" selectionMode="single"  >  
+                                    <p:column >  
+                                        #{variable}  
+                                    </p:column>  
+                                </p:dataTable>
+                                <h:outputLabel for="key1" value="Keyword SMS: " />  
+                                <h:inputText id="key1" value="#{documentController.selectedDocument.key}"   />
+                                <h:outputLabel for="time1" value="Time Between answers: " />  
+                                <h:inputText id="time1" value="#{documentController.selectedDocument.time}" />  
+                                <h:outputLabel for="allow1" value="Exact answers allowed: " />  
+                                <p:selectBooleanButton offLabel="No" onLabel="Yes" id="allow1" value="#{documentController.selectedDocument.allow}"  />    
+                                <p:commandButton  value="Confime"  actionListener="#{documentController.editques()}" update="" ajax="false"/>
+                            </h:panelGrid>
+                            <h:panelGrid  columns="2" cellpadding="5" rendered="#{documentController.selectedDocument.type=='r'}" >  
+                                <ui:repeat value="#{documentController.selectedDocument.text}" var="selectedDocument" varStatus="iteration" >  
+                                    <h:outputLabel for="name2" value="Answer: " /> 
+                                    <h:inputText id="name2" value="#{documentController.selectedDocument.text[iteration.index]}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/>
+                                <h:outputLabel for="key20" value="Keyword SMS: " />  
+                                <h:inputText id="key20" value="#{documentController.selectedDocument.key}"   />
+                                <h:outputLabel for="val0" value="Corresponding value: " />  
+                                <h:inputText id="val0" value="#{documentController.selectedDocument.val}"   /> 
+                                <p:commandButton  value="Confime"  actionListener="#{documentController.editanswer()}" update="" ajax="false"/>
+                            </h:panelGrid>
+                        </p:outputPanel>  
+                    </p:dialog>   
+
+
+                    <p:dialog id="addques" header="add" showEffect="fade" widgetVar="addDialog" modal="true">  
+                        <p:outputPanel id="addPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            <h:panelGrid  columns="2" cellpadding="5">  
+                                <ui:repeat value="#{addBean.culture}" var="addBean" varStatus="iteration" >  
+                                    <h:outputLabel for="name2" value="Question: " /> 
+                                    <h:inputText id="name2" value="#{addBean.culture[iteration.index]}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/>
+                                <h:panelGrid  columns="2" cellpadding="5">  
+                                    <h:outputLabel for="name2" value="Variable: " /> 
+                                    <p:dataTable id="cars" var="variable" value="#{addBean.variable}" rowKey="#{variable}"  
+                                                 selection="#{addBean.selectedCar}" selectionMode="single"  >  
+                                        <p:column >  
+                                            #{variable}  
+                                        </p:column>  
+                                    </p:dataTable>     
+                                    <h:outputLabel for="key" value="Keyword SMS: " />  
+                                    <h:inputText id="key" value="#{addBean.keyword}"   />
+                                    <h:outputLabel for="time" value="Time Between answers: " />  
+                                    <h:inputText id="time" value="#{addBean.time}" />  
+                                    <h:outputLabel for="allow" value="Exact answers allowed: " />  
+                                    <p:selectBooleanButton offLabel="No" onLabel="Yes" id="allow" value="#{addBean.allow}"  />    
+                                    <p:commandButton  value="Confime"  actionListener="#{addBean.ex()}" update="" ajax="false"/>
+                                </h:panelGrid>
+                            </h:panelGrid>    
+                        </p:outputPanel>  
+                    </p:dialog>  
+                    <p:dialog id="addanswer" header="add answer" showEffect="fade" widgetVar="addDialog8" modal="true">  
+                        <p:outputPanel id="addPanel8">  
+                            <h:panelGrid  columns="2" cellpadding="5">  
+                                <ui:repeat value="#{addBean.culture3}" var="addBean" varStatus="iteration" >  
+                                    <h:outputLabel for="name6" value="Answer: " /> 
+                                    <h:inputText id="name6" value="#{addBean.culture3[iteration.index]}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/>
+
+                                <h:panelGrid  columns="2" cellpadding="5">  
+                                    <h:outputLabel for="quest" value="Question " /> 
+                                    <p:dataTable id="quest" var="quest" value="#{addBean.quest}" rowKey="#{quest}"  
+                                                 selection="#{addBean.selectedQues}" selectionMode="single"  >  
+                                        <p:column >  
+                                            #{quest}  
+                                        </p:column>  
+                                    </p:dataTable>
+                                    <h:outputLabel for="key2" value="Keyword SMS: " />  
+                                    <h:inputText id="key2" value="#{addBean.keywordResp}"   />
+                                    <h:outputLabel for="val" value="Corresponding value: " />  
+                                    <h:inputText id="val" value="#{addBean.value}"   /> 
+                                    <p:commandButton  value="Confime"  actionListener="#{addBean.addAnswer()}" update="" ajax="false"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>  
+                    </p:dialog>  
+
+                </h:form>
+
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">See Data</ui:define>
+        <ui:define name="pageBody">
+
+            <div id="divBody" class="divMainPart">
+                <div id="carte" class="divMarginPadding">
+                    <h:form>
+                        <p:panel header="Map of sites">
+                            <div style="text-align: center;">
+                                <p:growl id="growl" showDetail="true"/>  
+                                <p:gmap center="-3.381824,36.58081" zoom="8" type="HYBRID" style="width:400px;height:400px;display:inline-block;" model="#{mapBean.model}" >
+                                    <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" oncomplete="mapAjaxSuccessStatus();" update=":outputInfo"></p:ajax>
+                                </p:gmap>
+                            </div>
+                        </p:panel>
+                    </h:form>
+                </div>
+                <div id="info" class="divMarginPadding">
+                    <!--
+                    Ce tableau affiche les informations d'un site a partir d'une chaine JSON.
+                    -->
+                    <p:panel header="Information of the selected site">
+                        <table id="tableInfo" cellspacing="0" cellpadding="0">
+                            <tbody id="tableInfoBody">
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    </p:panel>
+                    <!--
+                    Le resultat du server apres le click sur un marqueur arrive ici sous format JSON. Un fonction Javascript va
+                    cherche le resultat ici pour le parser et l'afficher dans le tableau ci-dessus.
+                    -->
+                    <h:outputText id="outputInfo" value="#{mapBean.data}" style="display:none;"></h:outputText>
+                </div>
+                <div style="clear:both;"></div>
+                <div class="divMarginPadding">
+                    <p:panel  header="Graphs">
+                        <p:panel id="visualization">
+                        </p:panel>
+                    </p:panel>
+                </div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

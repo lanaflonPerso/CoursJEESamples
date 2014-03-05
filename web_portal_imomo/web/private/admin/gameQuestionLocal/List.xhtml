@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Game Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+
+                <div class="divMainPart">
+
+                    <p:dataTable id="dataTable" var="gameQuestionLocal" value="#{gameQuestionLocalController.list}" widgetVar="gameQuestionssTable"   
+                                     emptyMessage="No question found" >  
+
+
+                            <p:column headerText="text">                                
+                                    <h:outputText value="#{gameQuestionLocal.text}" />                                
+                            </p:column>
+                        </p:dataTable>  
+
+
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

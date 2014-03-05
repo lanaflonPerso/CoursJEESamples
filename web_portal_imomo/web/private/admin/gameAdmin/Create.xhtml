@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Game Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <div class="divMainPart">
+                    <ui:include src="/template/commonTemplateCreateUser.xhtml"></ui:include>
+                    <h:form>
+                        <h:commandLink action="#{gameQuestionController.prepareList}" value="#{bundle.CreateUserShowAllLink}" immediate="true"/>
+                    </h:form>
+
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>

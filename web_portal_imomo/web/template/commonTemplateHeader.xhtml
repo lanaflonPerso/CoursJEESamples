@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+        <title>TODO supply a title</title>
+    </head>
+    <body>
+
+        <ui:composition>
+            <div id="divMsgOldNavigator"></div>
+            <div id="divTop" class="divMainPart"> 
+                <div id="divNavig" class="divMarginPadding">
+                    <div id="divLogo">
+                        <h:outputLink class="imgImomo" value="/web_portal_imomo/">  
+                            <p:graphicImage value="/resources/img/imomo.jpg" />
+                        </h:outputLink>
+                    </div>
+                    <div id="projectTitle"> 
+                        <h:outputLabel> iMoMo - Low-Cost, High-Tech and Crowd-Sourced Solutions for Better Water Management </h:outputLabel>
+                    </div>
+                    <div id="divMenuHeader">
+                        <h:form id="formMenuBar">
+                            <p:menubar id="menuBarHeader">
+                                <p:menuitem   outcome="/public/project" value="The project" />
+                                <p:menuitem   outcome="/public/services" value="Approach" /> 
+                                <p:menuitem  outcome="/public/games" value="What We Offer" /> 
+                                <p:menuitem   outcome="/public/research" value="Current and Future Deployments" /> 
+                                <p:menuitem   outcome="/public/about" value="About Us" />
+
+                                <f:facet name="options">
+
+                                    <c:if test="#{!credentialBean.loggedIn}">
+                                        <p:button  value="Get Involved" outcome="/public/involved" />
+
+
+                                        <p:commandButton  id="loginLink"  value="Login" onclick="dlg.show();" title="login" immediate="true"/>
+                                    </c:if>
+                                    <c:if test="#{credentialBean.loggedIn}">
+                                        <p:outputLabel>You are logged as #{credentialBean.username}</p:outputLabel>
+                                        <p:commandButton  action="#{credentialBean.doLogout}" value="Logout" />
+                                    </c:if>
+
+                                    <h:form style="display: inline-block">
+                                        <h:selectOneMenu value="#{localeBean.language}" onchange="submit();">
+                                            <f:selectItem itemValue="en" itemLabel="English"/>
+                                            <f:selectItem itemValue="fr" itemLabel="Français" />
+                                        </h:selectOneMenu>
+                                    </h:form>
+                                </f:facet>
+
+
+                            </p:menubar>
+
+                        </h:form>
+                        <div id="divLoginForIE7" style="display: none;">
+
+                            <h:form>
+                                <p:outputLabel for="loginUsername" value="Username:" />  
+                                <p:inputText value="#{credentialBean.username}" id="loginUsername" required="true" label="loginUsername" />  
+                                <p:outputLabel for="loginPassword" value="Password:" />  
+                                <p:password value="#{credentialBean.password}" id="loginPassword" required="true" label="loginPassword" />
+                                <h:commandButton  type="submit" id="loginButton" value="Login"  actionListener="#{credentialBean.login}"  />
+                            </h:form>
+                        </div>
+                        <p:growl id="growlLoginDialog" showDetail="true" life="3000" />  
+                        <h:form>
+                            <p:dialog id="loginDialog" header="Login" widgetVar="dlg" resizable="false">
+                                <h:panelGrid columns="2"> 
+                                    <p:outputLabel for="loginUsername" value="Username:" />  
+                                    <p:inputText value="#{credentialBean.username}" id="loginUsername" required="true" label="loginUsername"/>
+                                    <p:outputLabel value="" />
+                                    <p:message for="loginUsername"  />
+                                    <p:outputLabel for="loginPassword" value="Password:" />  
+                                    <p:password value="#{credentialBean.password}" id="loginPassword" required="true" label="loginPassword"/>
+                                    <p:outputLabel value="" />
+                                    <p:message for="loginPassword"  />
+                                    <f:facet name="footer">
+                                        <p:commandButton  id="loginButton" value="Login" actionListener="#{credentialBean.login}" update=":growlLoginDialog @all" oncomplete="handleLoginRequest(xhr, status, args)"></p:commandButton>
+                                    </f:facet>  
+                                </h:panelGrid>  
+                            </p:dialog>  
+                        </h:form>
+
+
+
+                    </div><!-- fin div divMenu--> 
+                </div><!-- fin div divNavig-->
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divTop-->
+        </ui:composition>
+    </body>
+</html>

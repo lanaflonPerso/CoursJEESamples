@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+     
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Game Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <div class="divMainPart divBorder">   
+                    <h:form>
+                        <p:commandLink title="Add question" oncomplete="addQuestionDialog.show()">  
+                            <h:outputText styleClass="ui-icon ui-icon-circle-plus"/>   
+                        </p:commandLink>
+                    </h:form>    
+                    <h:form id="questionForm">
+                        <h:panelGrid columns="2" id="questionFormContainer" headerClass="test" cellpadding="2px" cellspacing="2px" style="padding: 1px;">   
+                            
+                            <!-- Table of Questions -->
+                            
+                            <p:dataTable id="questionDataTable" var="gameQuestion" value="#{gameQuestionController.allQuestion}" widgetVar="gameQuestionsTable" emptyMessage="No question found" resizableColumns="true">  
+                                <p:column headerText="Question" width="15%" styleClass="word-wrap" >                                
+                                <ui:repeat value="#{gameQuestion.list}" var="gameQuestionLocal">
+                                    [<h:outputText value="#{gameQuestionLocal.gameQuestionLocalPK.cultureCode}" />] <h:outputText value="#{gameQuestionLocal.text}" /> <br />                                
+                                </ui:repeat>         
+                            </p:column>                         
+                            <p:column headerText="Variable" width="15%" styleClass="word-wrap">                                
+                                <h:outputText value="#{gameQuestion.gameQuestion.variableID.variableName.term}" />                                
+                            </p:column>
+                            <p:column headerText="Keyword"  width="12%" styleClass="word-wrap">                                
+                                <h:outputText value="#{gameQuestion.gameQuestion.keyword}" />                                
+                            </p:column>
+                            <p:column headerText="User Answer Allowed" width="12%" styleClass="word-wrap">                                
+                                <h:outputText value="Yes" rendered="#{gameQuestion.gameQuestion.userResponseAllowed}"/>
+                                <h:outputText value="No" rendered="#{!gameQuestion.gameQuestion.userResponseAllowed}"/>
+                            </p:column>                            
+                            <p:column headerText="Time" width="8%" styleClass="word-wrap">
+                                <h:outputText value="#{gameQuestion.gameQuestion.timeBetweenResponses}" />   
+                            </p:column>                            
+                            <p:column headerText="Prof. Level" width="9%" styleClass="word-wrap">                                  
+                                <h:outputText value="#{gameQuestion.gameQuestion.profLevel}"/>                                
+                            </p:column>   
+                            <p:column headerText="Enable" width="10%" styleClass="word-wrap">                                
+                                <h:outputText value="Yes" rendered="#{gameQuestion.gameQuestion.enabled}"/>
+                                <h:outputText value="No" rendered="#{!gameQuestion.gameQuestion.enabled}"/>
+                            </p:column>                                   
+                            <p:column headerText="Actions" width="9%" styleClass="word-wrap"> 
+                                <p:commandLink action="#{gameQuestionController.test(gameQuestionController.selectedQuestionContainer.gameQuestion.questionID)}" oncomplete="editDialog.show()" title="Edit" update=":editQuestionForm:editquestion">  
+                                    <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>
+                                <p:commandLink action="#{gameQuestionController.test(gameQuestionController.selectedQuestionContainer.gameQuestion.questionID)}" oncomplete="confirmDeleteQuestionDialog.show()" title="Delete" update=":deleteQuestionForm:confirmDeleteQuestionDialog">  
+                                    <h:outputText styleClass="ui-icon ui-icon-trash"/> 
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>
+<!--                                <p:commandLink oncomplete="manageLocalsDialog.show()" title="Manage translations" update=":manageLocalsForm:managelocals">  
+                                    <h:outputText styleClass="ui-icon ui-icon-document"/> 
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>                                   -->
+                                <p:commandLink oncomplete="addAnswerDialog.show()" title="Add answer" update=":addAnswerForm:addanswer">  
+                                    <h:outputText styleClass="ui-icon ui-icon-plusthick"/> 
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>                                 
+                                <p:commandLink title="Display answers" update=":questionForm:displayAnswers">  
+                                    <h:outputText styleClass="ui-icon ui-icon-circle-arrow-e"/>   
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>                                
+                            </p:column>
+                            <p:column headerText="Translate" width="9%" styleClass="word-wrap"> 
+                                <p:commandLink oncomplete="addGameQuestionLocalEnDialog.show()" title="Add English translation" update=":addGameQuestionLocalEnForm:addgamequestionlocalen">  
+<!--                                    <h:outputText styleClass="ui-icon ui-icon-document"/> -->
+                                    <p:graphicImage value="/resources/css/EN_add.jpg" styleClass="icon-tz-add"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>   
+                                <h:outputText value="     " />
+                                <p:commandLink action="#{gameQuestionController.test(gameQuestionController.selectedQuestionContainer.gameQuestion.questionID)}" oncomplete="confirmDeleteGameQuestionLocalEnDialog.show()" title="Delete" update=":deleteGameQuestionLocalEnForm:confirmDeleteGameQuestionLocalEnDialog">  
+<!--                                    <h:outputText styleClass="ui-icon ui-icon-trash"/> -->
+                                    <p:graphicImage value="/resources/css/EN_delete.jpg" styleClass="icon-tz-delete"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>
+                                <br /><br />
+                                <p:commandLink oncomplete="addGameQuestionLocalSwDialog.show()" title="Add Swahili translation" update=":addGameQuestionLocalSwForm:addgamequestionlocalsw">  
+                                    <p:graphicImage value="/resources/css/SW_add.jpg" styleClass="icon-tz-add"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink> 
+<h:outputText value="     " />
+                                <p:commandLink action="#{gameQuestionController.test(gameQuestionController.selectedQuestionContainer.gameQuestion.questionID)}" oncomplete="confirmDeleteGameQuestionLocalSwDialog.show()" title="Delete" update=":deleteGameQuestionLocalSwForm:confirmDeleteGameQuestionLocalSwDialog">  
+<!--                                    <h:outputText styleClass="ui-icon ui-icon-trash"/> -->
+                                    <p:graphicImage value="/resources/css/SW_delete.jpg" styleClass="icon-tz-delete"/>
+                                    <f:setPropertyActionListener value="#{gameQuestion}" target="#{gameQuestionController.selectedQuestionContainer}"/>
+                                </p:commandLink>
+                                
+                            </p:column>     
+                        </p:dataTable>
+                            
+                        <!-- Table of answers -->    
+                        <h:panelGroup layout="block" id="displayAnswers">
+                            <p:dataTable id="answerDataTable" var="gameResponse" value="#{gameQuestionController.getGamePossibleResponse(gameQuestionController.selectedQuestionContainer.getGameQuestion().getQuestionID())}" widgetVar="gameResponseTable"   
+                                         emptyMessage="No answer found" resizableColumns="true" tableStyleClass="test">                                
+                                <p:column headerText="Answer"  width="15%" styleClass="word-wrap">
+                                     <ui:repeat value="#{gamePossibleResponseLocalController.getallPossibleResponseLocal(gameResponse.possibleResponseID)}" var="gameResponseLocal">
+                                        [<h:outputText value="#{gameResponseLocal.gamePossibleResponseLocalPK.cultureCode}" />] <h:outputText value="#{gameResponseLocal.text}" /> <br />                                
+                                    </ui:repeat>  
+                                </p:column>  
+                               
+                                <p:column headerText="Value" width="5%" styleClass="word-wrap">                                
+                                    <h:outputText value="#{gameResponse.value}" />                                
+                                </p:column> 
+                                <p:column headerText="Keyword" width="7%" styleClass="word-wrap">                                
+                                    <h:outputText value="#{gameResponse.keyword}" />                                
+                                </p:column>
+                                <p:column headerText="Actions"  width="10%" styleClass="word-wrap"> 
+                                    <p:commandLink action="#{gamePossibleResponseController.test(gamePossibleResponseController.selectedPossibleResponse.getPossibleResponseID())}" oncomplete="editAnswerDialog.show()" title="Edit" update=":editAnswerForm:editanswer">  
+                                        <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink>
+                                    <p:commandLink action="#{gamePossibleResponseController.test(gamePossibleResponseController.selectedPossibleResponse.getPossibleResponseID())}" oncomplete="confirmDeleteAnswerDialog.show()" title="Delete" update=":deleteAnswerForm:confirmDeleteAnswerDialog">  
+                                        <h:outputText styleClass="ui-icon ui-icon-trash"/> 
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink> 
+    <!--                                <p:commandLink oncomplete="manageRLocalsDialog.show()" title="Manage translations" update=":manageRLocalsForm:managerlocals">  
+                                        <h:outputText styleClass="ui-icon ui-icon-document"/> 
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink>                                    -->
+                                </p:column>
+                                <p:column headerText="Translate"  width="10%" styleClass="word-wrap"> 
+                                    <p:commandLink oncomplete="addGPRLocalEnDialog.show()" title="Add English translation" update=":addGPRLocalEnForm:addgprlocalen">  
+                                        <p:graphicImage value="/resources/css/EN_add.jpg" styleClass="icon-tz-add"/>
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink>   
+                                    <h:outputText value="     " />
+                                    <p:commandLink action="#{gamePossibleResponseController.test(gamePossibleResponseController.selectedPossibleResponse.getPossibleResponseID())}" oncomplete="confirmDeleteGPRLocalEnDialog.show()" title="Delete" update=":deleteGPRLocalEnForm:confirmDeleteGPRLocalEnDialog">  
+                                        <p:graphicImage value="/resources/css/EN_delete.jpg" styleClass="icon-tz-delete"/>
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink>
+                                    <br /><br />
+                                    <p:commandLink oncomplete="addGPRLocalSwDialog.show()" title="Add Swahili translation" update=":addGPRLocalSwForm:addgprlocalsw">  
+                                        <p:graphicImage value="/resources/css/SW_add.jpg" styleClass="icon-tz-add"/>
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink> 
+                                    <h:outputText value="     " />
+                                    <p:commandLink action="#{gamePossibleResponseController.test(gamePossibleResponseController.selectedPossibleResponse.getPossibleResponseID())}" oncomplete="confirmDeleteGPRLocalSwDialog.show()" title="Delete" update=":deleteGPRLocalSwForm:confirmDeleteGPRLocalSwDialog">  
+                                        <p:graphicImage value="/resources/css/SW_delete.jpg" styleClass="icon-tz-delete"/>
+                                        <f:setPropertyActionListener value="#{gameResponse}" target="#{gamePossibleResponseController.selectedPossibleResponse}"/>
+                                    </p:commandLink>                                
+                            </p:column>    
+                            </p:dataTable>                           
+                        </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                    <br /><br />                  
+                    
+<!--                Add New Question Dialog Box
+                    
+-->                 <h:form id="addQuestionForm">
+                    <p:dialog id="addquestion" header="Add a new question" showEffect="fade" widgetVar="addQuestionDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+<!--                                <h:outputLabel for="locals" value="Question: " />                                -->
+<!--                                <ui:repeat value="#{gameQuestion.list}" var="gameQ">                                       
+                                    <h:inputText id="locals" value="#{gameQ.cultureCode}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/><br/> -->
+                                <h:outputLabel for="crowdsourcingVars" value="Variable: " /> 
+                                <br/>
+                                <p:selectOneMenu id="crowdsourcingVars" value="#{gameQuestionController.newSelected.variableID}"> 
+                                    <f:selectItem itemLabel="(Select One)" itemValue="" itemDisabled="true"/>  
+                                    <f:selectItems value="#{variablesController.crowdsourcingVariables}" var="variableList" itemLabel="#{variableList.variableName.term}" itemValue="#{variableList}" />
+                                    <f:converter binding="#{variablesConverter}"/>
+                                </p:selectOneMenu>
+                                
+                                <br/><br/>    
+                                <h:outputLabel for="smsKeyword" value="SMS Keyword: " /> 
+                                <br/>
+                                <h:inputText id="smsKeyword" value="#{gameQuestionController.selected.keyword}"/>                                
+                                <p:watermark for="smsKeyword" value="SMS Keyword"/>
+                                <br/><br/>
+                                <h:outputLabel for="timeBetweenAnswers" value="Time between answers: " />  
+                                <br/>
+                                <h:inputText id="timeBetweenAnswers" value="#{gameQuestionController.selected.timeBetweenResponses}" />  
+                                <p:watermark for="timeBetweenAnswers" value="Time between answers"/>
+                                <br/><br/>
+                                <h:outputLabel for="userResponse" value="Allow user answers: " />  
+                                <br/>                                
+                                <p:selectOneRadio id="userResponse" value="#{gameQuestionController.selected.userResponseAllowed}">  
+                                    <f:selectItem itemLabel="0" itemValue="false" />  
+                                    <f:selectItem itemLabel="1" itemValue="true" />                                      
+                                </p:selectOneRadio>
+                                <br/><br/>
+                                <h:outputLabel for="profLevel" value="profLevel: " />  
+                                <br/>                                
+                                <p:selectOneRadio id="profLevel" value="#{gameQuestionController.selected.profLevel}">  
+                                    <f:selectItem itemLabel="0" itemValue="0" />  
+                                    <f:selectItem itemLabel="1" itemValue="1" />                                      
+                                </p:selectOneRadio>
+                                <br/><br/>
+                                <h:outputLabel for="enabled" value="Enabled within games:" />  
+                                <br/>                                
+                                <p:selectOneRadio id="enabled" value="#{gameQuestionController.selected.enabled}">  
+                                    <f:selectItem itemLabel="0" itemValue="false" />  
+                                    <f:selectItem itemLabel="1" itemValue="true" />                                      
+                                </p:selectOneRadio>
+                                <br/><br/>
+                                <p:commandButton  value="Add new question" update="" ajax="false" action="#{gameQuestionController.create}" />
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+
+<!--                 Edit Question Dialog Box -->                 
+
+                    <h:form id="editQuestionForm">
+                    <p:dialog id="editquestion" header="Edit a question" showEffect="fade" widgetVar="editDialog" modal="true">  
+                        <p:outputPanel id="editPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+<!--                                <h:outputLabel for="localEN" value="Question (EN): " /> 
+                                <br/>
+                                <h:inputText id="localEN" value="" style="width: 93%" /> <br/>
+                                <br/>
+                                <h:outputLabel for="localSW" value="Question (SW): " />                                
+                                <br/>
+                                <h:inputText id="localSW" value="" style="width: 93%" /> <br/>
+                                <br/>-->
+                                <p:selectOneMenu id="crowdsourcingVars" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.variableID}"> 
+                                    <f:selectItem itemLabel="(Select One)" itemValue="" itemDisabled="true"/>  
+                                    <f:selectItems value="#{variablesController.crowdsourcingVariables}" var="variableList" 
+                                                   itemLabel="#{variableList.variableName.term}" itemValue="#{variableList}" />
+                                    <f:converter binding="#{variablesConverter}"/>                                    
+                                </p:selectOneMenu>                                                                
+                                <br/><br/>    
+                                <h:outputLabel for="smsKeyword" value="SMS Keyword: " />  
+                                <h:inputText id="smsKeyword" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.keyword}"/>                                                                
+                                <br/><br/>
+                                <h:outputLabel for="timeBetweenAnswers" value="Time between answers: " />  
+                                <h:inputText id="timeBetweenAnswers" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.timeBetweenResponses}" />  
+                                <p:watermark for="timeBetweenAnswers" value="Time between answers"/>
+                                <br/><br/>
+
+                                <h:outputLabel for="userResponse" value="Allow user answers: " />  
+                                <br/>                                
+                                <p:selectOneRadio id="userResponse" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.userResponseAllowed}">  
+                                    <f:selectItem itemLabel="0" itemValue="false" />  
+                                    <f:selectItem itemLabel="1" itemValue="true" />                                      
+                                </p:selectOneRadio>                               
+                                <br/><br/>
+                                <h:outputLabel for="profLevel" value="profLevel: " />  
+                                <br/>                                
+                                <p:selectOneRadio id="profLevel" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.profLevel}">  
+                                    <f:selectItem itemLabel="0" itemValue="0" />  
+                                    <f:selectItem itemLabel="1" itemValue="1" />                                      
+                                </p:selectOneRadio>
+                                <br/><br/>
+                                <h:outputLabel for="enabled" value="Enabled within games:" />  
+                                <br/>                                
+                                <p:selectOneRadio id="enabled" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.enabled}">  
+                                    <f:selectItem itemLabel="0" itemValue="false" />  
+                                    <f:selectItem itemLabel="1" itemValue="true" />                                      
+                                </p:selectOneRadio>
+                                <br/><br/>                                
+                                <p:commandButton value="Edit question" update="" ajax="false" action="#{gameQuestionController.update()}" />
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+
+<!--                 Delete Question Dialog Box -->   
+
+                    <h:form id="deleteQuestionForm">
+                    <p:confirmDialog id="confirmDeleteQuestionDialog" header="Delete a question" severity="alert" widgetVar="confirmDeleteQuestionDialog"
+                                     message="Are you sure about deleting this question (id = #{gameQuestionController.selectedQuestionContainer.gameQuestion.questionID})?">
+                            <p:commandButton id="confirm" value="Yes Sure" update=":questionForm:questionDataTable" oncomplete="confirmDeleteQuestionDialog.hide();" actionListener="#{gameQuestionController.delete('/private/admin/gameAdmin/')}"/>
+                            <p:commandButton id="decline" value="Not Yet" onclick="confirmDeleteQuestionDialog.hide();" type="button"/>
+                    </p:confirmDialog>    
+                   </h:form>
+
+<!--                Add Game Question Local En Dialog Box     -->
+                    <h:form id="addGameQuestionLocalEnForm">    
+                    <p:dialog id="addgamequestionlocalen" header="Add English translation" showEffect="fade" widgetVar="addGameQuestionLocalEnDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addGameQuestionLocalEnPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="questionID" value="Question ID: " /><br/>
+                            <h:inputText id="questionID" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.questionID}" disabled="true"/>                                                                
+                            <br/><br/>                            
+                            <h:outputLabel for="localEN" value="Add English translation: " /> <br/>                                
+                            <h:inputText id="localEN" value="#{gameQuestionLocalController.newSelected.text}"/>                               
+                            <p:watermark for="localEN" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gameQuestionLocalController.create}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form>  
+
+<!--                Add Game Question Local Sw Dialog Box     -->
+                    <h:form id="addGameQuestionLocalSwForm">    
+                    <p:dialog id="addgamequestionlocalsw" header="Add Swahili translation" showEffect="fade" widgetVar="addGameQuestionLocalSwDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addGameQuestionLocalSwPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="questionID" value="Question ID: " /><br/>
+                            <h:inputText id="questionID" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.questionID}" disabled="true"/>                                                                
+                            <br/><br/>                            
+                            <h:outputLabel for="localSW" value="Add Swahili translation: " /> <br/>                                
+                            <h:inputText id="localSW" value="#{gameQuestionLocalController.newSelected.text}"/>                               
+                            <p:watermark for="localSW" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gameQuestionLocalController.createSW}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form>  
+
+<!--                Delete Game Question Local En Dialog Box     -->
+                  <h:form id="deleteGameQuestionLocalEnForm">
+                    <p:confirmDialog id="confirmDeleteGameQuestionLocalEnDialog" header="Delete English translation" severity="alert" widgetVar="confirmDeleteGameQuestionLocalEnDialog"
+                                     message="Are you sure about deleting the English translation?">
+                            <p:commandButton id="confirm" value="Yes" update=":questionForm:questionDataTable" oncomplete="confirmDeleteGameQuestionLocalEnDialog.hide();" actionListener="#{gameQuestionLocalController.delete('/private/admin/gameAdmin/')}"/>
+                            <p:commandButton id="decline" value="No" onclick="confirmDeleteGameQuestionLocalEnDialog.hide();" type="button"/>
+                    </p:confirmDialog>    
+                   </h:form>
+
+<!--                Delete Game Question Local Sw Dialog Box     -->
+                  <h:form id="deleteGameQuestionLocalSwForm">
+                    <p:confirmDialog id="confirmDeleteGameQuestionLocalSwDialog" header="Delete Swahili translation" severity="alert" widgetVar="confirmDeleteGameQuestionLocalSwDialog"
+                                     message="Are you sure about deleting the Swahili translation?">
+                            <p:commandButton id="confirm" value="Yes" update=":questionForm:questionDataTable" oncomplete="confirmDeleteGameQuestionLocalSwDialog.hide();" actionListener="#{gameQuestionLocalController.deleteSW('/private/admin/gameAdmin/')}"/>
+                            <p:commandButton id="decline" value="No" onclick="confirmDeleteGameQuestionLocalSwDialog.hide();" type="button"/>
+                    </p:confirmDialog>    
+                   </h:form>
+
+<!--                Manage Locals Dialog Box     
+                    <h:form id="manageLocalsForm">    
+                    <p:dialog id="managelocals" header="Manage translations" showEffect="fade" widgetVar="manageLocalsDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="manageLocalsPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            
+                            <h:outputLabel for="questionID" value="Question ID: " /><br/>
+                            <h:inputText id="questionID" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.questionID}" disabled="true"/>                                                                
+                            <br/><br/>
+                            
+                            <h:outputText value="Add new translations" /> 
+                            <br/><br/>
+                            
+                            <p:selectOneMenu id="cultureCode" value="#{gameQuestionLocalController.newSelected.cultureCode}"> 
+                                <f:selectItem itemLabel="(Select One)" itemValue="" />  
+                                <f:selectItems value="#{cultureController.allCultureCodes}" var="cultureList" itemLabel="#{cultureList.code}" itemValue="#{cultureList}"/>
+                            </p:selectOneMenu>
+
+                            <br/><br/> 
+                            <h:form id="addEN">
+                            <h:outputLabel for="localEN" value="English: " /> <br/>                                
+                            <h:inputText id="localEN" value="#{gameQuestionLocalController.selected.text}"/>                               
+                            <p:watermark for="localEN" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add EN" update="" ajax="false" action="#{gameQuestionLocalController.create}" />
+                            </h:form>
+                            <h:form id="addSW">
+                            <h:outputLabel for="localSW" value="Swahili: " /> <br/>                                
+                            <h:inputText id="localSW" value="#{gameQuestionLocalController.newSelected.text}"/>                               
+                            <p:watermark for="localSW" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add SW" update="" ajax="false" action="#{gameQuestionLocalController.createSW}" />
+                            </h:form>
+                            
+                            <p:commandButton value="Edit" update="" ajax="false" action="#{gameQuestionLocalController.update()}" />
+                            <p:commandButton value="Delete" update="" ajax="false" action="#{gameQuestionLocalController.delete('/private/admin/gameAdmin/')}" />
+                            
+                            <h:outputLabel for="answerValue" value="Value: " />  
+                            <br/>
+                            <h:inputText id="answerValue" value="#{gamePossibleResponseController.selected.value}"/>  
+                            <p:watermark for="answerValue" value="Value"/>
+                            <br/><br/>
+                            <p:commandButton value="Add new answer" update="" ajax="false" action="#{gamePossibleResponseController.create}" />
+                        </p:outputPanel>  
+                    
+                    </p:dialog> 
+                    </h:form>                        -->
+
+<!--                Add New Answer Dialog Box -->                 
+                    <h:form id="addAnswerForm">
+                    <p:dialog id="addanswer" header="Add a new answer" showEffect="fade" widgetVar="addAnswerDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+<!--                                <h:outputLabel for="locals" value="Question: " />                                -->
+<!--                                <ui:repeat value="#{gameQuestion.list}" var="gameQ">                                       
+                                    <h:inputText id="locals" value="#{gameQ.cultureCode}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/><br/> -->
+                                <h:outputLabel for="questionID" value="Question ID: " /> 
+                                <br/>
+                                <h:inputText id="questionID" value="#{gameQuestionController.selectedQuestionContainer.gameQuestion.questionID}" disabled="true"/>                                                                
+                                <br/><br/>
+                                <h:outputLabel for="answerKeyword" value="Keyword: " /> 
+                                <br/>
+                                <h:inputText id="answerKeyword" value="#{gamePossibleResponseController.newSelected.keyword}"/>                                
+                                <p:watermark for="answerKeyword" value="Keyword"/>
+                                <br/><br/>
+                                <h:outputLabel for="answerValue" value="Value: " />  
+                                <br/>
+                                <h:inputText id="answerValue" value="#{gamePossibleResponseController.selected.value}"/>  
+                                <p:watermark for="answerValue" value="Value"/>
+                                <br/><br/>
+                                <p:commandButton value="Add new answer" update="" ajax="false" action="#{gamePossibleResponseController.create}" />
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+
+<!--                Edit Answer Dialog Box
+                    
+-->                 <h:form id="editAnswerForm">
+                    <p:dialog id="editanswer" header="Edit answer" showEffect="fade" widgetVar="editAnswerDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="editPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+<!--                                <h:outputLabel for="locals" value="Question: " />                                -->
+<!--                                <ui:repeat value="#{gameQuestion.list}" var="gameQ">                                       
+                                    <h:inputText id="locals" value="#{gameQ.cultureCode}" style="width: 100%" /> <br/>
+                                </ui:repeat>
+                                <br/><br/> -->
+                                <h:outputLabel for="answerKeyword" value="Keyword: " /> 
+                                <br/>
+                                <h:inputText id="answerKeyword" value="#{gamePossibleResponseController.selectedPossibleResponse.keyword}"/>                                
+                                <p:watermark for="answerKeyword" value="Keyword"/>
+                                <br/><br/>
+                                <h:outputLabel for="answerValue" value="Value: " />  
+                                <br/>
+                                <h:inputText id="answerValue" value="#{gamePossibleResponseController.selectedPossibleResponse.value}"/>  
+                                <p:watermark for="answerValue" value="Value"/>
+                                <br/><br/>
+                                <p:commandButton value="Edit answer" update="" ajax="false" action="#{gamePossibleResponseController.update()}" />
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>
+
+<!--                 Delete Answer Dialog Box -->   
+
+                    <h:form id="deleteAnswerForm">
+                    <p:confirmDialog id="confirmDeleteAnswerDialog" header="Delete an answer" severity="alert" widgetVar="confirmDeleteAnswerDialog"
+                                     message="Are you sure about deleting this answer (id = #{gamePossibleResponseController.selectedPossibleResponse.possibleResponseID})?">
+                            <p:commandButton id="confirm" value="Yes Sure" update=":questionForm:answerDataTable" oncomplete="confirmDeleteAnswerDialog.hide();" actionListener="#{gamePossibleResponseController.delete('/private/admin/gameAdmin/')}"/>
+                            <p:commandButton id="decline" value="Not Yet" onclick="confirmDeleteAnswerDialog.hide();" type="button"/>
+                    </p:confirmDialog>    
+                   </h:form>
+
+<!--                Add Game Possible Response Local En Dialog Box     -->
+                    <h:form id="addGPRLocalEnForm">    
+                    <p:dialog id="addgprlocalen" header="Add English translation" showEffect="fade" widgetVar="addGPRLocalEnDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addGPRLocalEnPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="responseID" value="Response ID: " /><br/>
+                            <h:inputText id="responseID" value="#{gamePossibleResponseController.selectedPossibleResponse.possibleResponseID}" disabled="true"/>       
+                            <br/><br/>                            
+                            <h:outputLabel for="localEN" value="Add English translation: " /> <br/>                                
+                            <h:inputText id="localEN" value="#{gamePossibleResponseLocalController.newSelected.text}"/>                               
+                            <p:watermark for="localEN" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gamePossibleResponseLocalController.create}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form>  
+
+<!--                Add Game Possible Response Local Sw Dialog Box     -->
+                    <h:form id="addGPRLocalSwForm">    
+                    <p:dialog id="addgprlocalsw" header="Add Swahili translation" showEffect="fade" widgetVar="addGPRLocalSwDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="addGPRLocalSwPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />                            
+                            <h:outputLabel for="responseID" value="Response ID: " /><br/>
+                            <h:inputText id="responseID" value="#{gamePossibleResponseController.selectedPossibleResponse.possibleResponseID}" disabled="true"/>       
+                            <br/><br/>                            
+                            <h:outputLabel for="localSW" value="Add Swahili translation: " /> <br/>                                
+                            <h:inputText id="localSW" value="#{gamePossibleResponseLocalController.newSelected.text}"/>                               
+                            <p:watermark for="localSW" value="Insert translation "/>
+                            <br/><br/>
+                            <p:commandButton value="Add" update="" ajax="false" action="#{gamePossibleResponseLocalController.createSW}" />
+                        </p:outputPanel>                    
+                    </p:dialog> 
+                    </h:form> 
+
+<!--                Manage Response Local Dialog Box -->                 
+<!--                    <h:form id="manageRLocalsForm">
+                    <p:dialog id="managerlocals" header="Manage translations" showEffect="fade" widgetVar="manageRLocalsDialog" modal="true" onHide="#{gameQuestionController.reset()}">  
+                        <p:outputPanel id="manageRLocalsPanel">  
+                            <p:growl id="growl" showDetail="true" sticky="true" />
+                                <h:outputLabel for="questionID" value="Question ID: " /> <br/>
+                                <h:inputText id="questionID" value="#{gamePossibleResponseController.selectedPossibleResponse.questionID.questionID}" disabled="true"/>                                                                                                 
+                                <br/><br/>
+                                <h:outputLabel for="possibleResponseID" value="Answer ID: " /> <br/>
+                                <h:inputText id="possibleResponseID" value="#{gamePossibleResponseController.selectedPossibleResponse.possibleResponseID}" disabled="true"/>                                                                                                 
+                                <br/><br/>
+                                <h:outputLabel for="enRLocal" value="English: " /> <br/>                                
+                                <h:inputText id="enRLocal" value="#{gamePossibleResponseLocalController.newSelected.text}"/>                               
+                                <p:watermark for="enRLocal" value="English: "/>
+                                <br/><br/>
+                                <p:commandButton value="Add" update="" ajax="false" action="#{gamePossibleResponseLocalController.create}" />
+                                <p:commandButton value="Edit" update="" ajax="false" action="#{gamePossibleResponseLocalController.update()}" />
+                                <p:commandButton value="Delete" update="" ajax="false" action="#{gamePossibleResponseLocalController.delete('/private/admin/gameAdmin/')}" />
+                                <br/><br/>                                
+                        </p:outputPanel>  
+                    </p:dialog> 
+                    </h:form>-->
+
+<!--                Delete GPR Local En Dialog Box     -->
+                    <h:form id="deleteGPRLocalEnForm">
+                        <p:confirmDialog id="confirmDeleteGPRLocalEnDialog" header="Delete English translation" severity="alert" widgetVar="confirmDeleteGPRLocalEnDialog" message="Are you sure about deleting the English translation?">
+                                <p:commandButton id="confirm" value="Yes" update=":questionForm:answerDataTable" oncomplete="confirmDeleteGPRLocalEnDialog.hide();" actionListener="#{gamePossibleResponseLocalController.delete('/private/admin/gameAdmin/')}"/>
+                                <p:commandButton id="decline" value="No" onclick="confirmDeleteGPRLocalEnDialog.hide();" type="button"/>
+                        </p:confirmDialog>    
+                    </h:form>
+
+<!--                Delete GPR Local Sw Dialog Box     -->
+                    <h:form id="deleteGPRLocalSwForm">
+                        <p:confirmDialog id="confirmDeleteGPRLocalSwDialog" header="Delete Swahili translation" severity="alert" widgetVar="confirmDeleteGPRLocalSwDialog" message="Are you sure about deleting the Swahili translation?">
+                                <p:commandButton id="confirm" value="Yes" update=":questionForm:answerDataTable" oncomplete="confirmDeleteGPRLocalSwDialog.hide();" actionListener="#{gamePossibleResponseLocalController.deleteSW('/private/admin/gameAdmin/')}"/>
+                                <p:commandButton id="decline" value="No" onclick="confirmDeleteGPRLocalSwDialog.hide();" type="button"/>
+                        </p:confirmDialog>    
+                    </h:form>
+
+                </div>
+                <div style="clear:both;"></div>
+            </div> 
+        </ui:define>
+    </ui:composition>
+</html>
+

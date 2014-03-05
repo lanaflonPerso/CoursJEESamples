@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">About</ui:define>
+        <ui:define name="pageBody">
+                <div id="divBody" class="divMainPart">
+                    <div id="divAbout" class="divMainBody divMarginPadding divBorder">
+                        <h2>About Us</h2>
+                        <h3>Our Consortium</h3>
+                        <p>
+                                        <a href="http://www.he-arc.ch" target="_blank">HE-ARC</a>: Haute école Arc (Neuchâtel Berne Jura)
+                                        <br />- <a href="http://www.edana.ch" target="_blank">EDANA</a>: Laboratoire en recherche en anthropo-technologie
+                                        <br />- <a href="http://imsi.he-arc.ch" target="_blank">IMSI</a>: Institut du management et des systèmes d'information 
+                                        <br />- <a href="http://isic.he-arc.ch" target="_blank">ISIC</a>: Institut des Systèmes d’Information et de Communication 
+                                        <br /><br/><a href="http://www.hydrosolutions.ch" target="_blank">hydrosolutions ltd.</a> 
+                                        <br /><br/><a href="http://iucn.org" target="_blank">IUCN</a>: International Union for Conservation of Nature
+                                        <br /><br/><a href="http://www.zhdk.ch" target="_blank">ZHdK</a>: Zurich University of the Arts
+                                        <br /><br />The project is sponsored by the Swiss Agency for Development and Cooperation (<a href="http://deza.admin.ch/en/Home" target="_blank">SDC</a>).                                       
+                        </p>
+
+                    </div>
+
+                    <div class="divCommingSoon divMarginPadding">
+                            <p:lightBox>
+                                <h:outputLink class="linkImgCommingSoon" value="/web_portal_imomo/resources/img/about1.jpg">     
+                                    <p:graphicImage value="/resources/img/about1.jpg" />  
+                                </h:outputLink>
+                                <h:outputLabel>The iMoMo Consortium</h:outputLabel> 
+                            </p:lightBox>
+                    </div> 
+                </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

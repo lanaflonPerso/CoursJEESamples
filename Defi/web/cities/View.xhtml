@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewCitiesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewCitiesLabel_id}"/>
+                    <h:outputText value="#{citiesController.selected.id}" title="#{bundle.ViewCitiesTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewCitiesLabel_name}"/>
+                    <h:outputText value="#{citiesController.selected.name}" title="#{bundle.ViewCitiesTitle_name}"/>
+                    <h:outputText value="#{bundle.ViewCitiesLabel_countryCode}"/>
+                    <h:outputText value="#{citiesController.selected.countryCode}" title="#{bundle.ViewCitiesTitle_countryCode}"/>
+                    <h:outputText value="#{bundle.ViewCitiesLabel_district}"/>
+                    <h:outputText value="#{citiesController.selected.district}" title="#{bundle.ViewCitiesTitle_district}"/>
+                    <h:outputText value="#{bundle.ViewCitiesLabel_population}"/>
+                    <h:outputText value="#{citiesController.selected.population}" title="#{bundle.ViewCitiesTitle_population}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{citiesController.destroyAndView}" value="#{bundle.ViewCitiesDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewCitiesEditLink}"/>
+                <br />
+                <h:commandLink action="#{citiesController.prepareCreate}" value="#{bundle.ViewCitiesCreateLink}" />
+                <br />
+                <h:commandLink action="#{citiesController.prepareList}" value="#{bundle.ViewCitiesShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewCitiesIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

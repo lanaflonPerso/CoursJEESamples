@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <h1>JSF 2 valueChangeListener example</h1>
+
+        <h:form>
+            Selected country II : 
+
+            Select a country {method binding}: 
+            <h:selectOneMenu   onchange="submit()" 
+                               valueChangeListener="#{country.countryLocaleCodeChanged}">
+                <f:selectItems value="#{country.countryInMap}"  />
+            </h:selectOneMenu>
+            <p></p>
+
+
+            <h:outputText id="countryII"  value="country : #{country.localeCode}"  /> <p></p>
+            <h:inputText id="countryI"  binding="#{country.myText}" /> <p></p>
+
+
+                   <p></p>
+            <h:commandButton value =" Submit" />
+        </h:form>
+
+    </h:body>
+
+
+</html>
+

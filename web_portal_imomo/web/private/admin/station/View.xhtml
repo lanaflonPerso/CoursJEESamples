@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StationViewDlg" widgetVar="StationViewDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.ViewStationTitle}">
+
+            <h:form id="StationViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{stationController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewStationLabel_stationID}"/>
+                        <h:outputText value="#{stationController.selected.stationID}" title="#{bundle.ViewStationTitle_stationID}"/>
+
+                        <h:outputText value="#{bundle.ViewStationLabel_uid}"/>
+                        <h:outputText value="#{stationController.selected.uid}" title="#{bundle.ViewStationTitle_uid}"/>
+
+                        <h:outputText value="#{bundle.ViewStationLabel_siteID}"/>
+                        <h:outputText value="#{stationController.selected.siteID.siteID}"/>
+
+                        <h:outputText value="#{bundle.ViewStationLabel_stationTypeID}"/>
+                        <h:outputText value="#{stationController.selected.stationTypeID.stationTypeID}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="StationViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

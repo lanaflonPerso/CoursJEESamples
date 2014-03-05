@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h1>Panier</h1>
+
+        <h:form>
+
+            <p></p>
+
+            <!-- selection items from Bean-->
+            <h:selectOneMenu id="SlectProd"
+                             value="#{panier.selectedFruit}">
+                <f:selectItems value ="#{panier.myProdList}" />
+
+            </h:selectOneMenu> Select from Beans
+
+            <p></p>
+
+            <h:inputText   value ="#{panier.quantity}" > </h:inputText>
+
+            <p></p>
+
+            <h:commandButton  value ="Ajouter au panier" action ="#{panier.AddProduct()}"/>
+
+            <p></p>
+
+            <!-- table on HashMap !! -->
+            <f:view>
+                <h:form>
+                    <h:dataTable value="#{panier.panierContentList}" var="item">
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fruit" />
+                            </f:facet> 
+                            <h:outputText value="#{item.key}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantity" />
+                            </f:facet> 
+                            <h:outputText value="#{item.value}"></h:outputText>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+
+
+            <!-- table on list of object !! -->
+            <f:view>
+                <h:form>
+                    <h2> dataTable on List of objects (Panier) </h2>
+                    <h:dataTable value="#{panier.prodList}" var="newitem">
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fruit" />
+                            </f:facet> 
+                            <h:outputText value="#{newitem.product}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantity" />
+                            </f:facet> 
+                            <h:outputText value="#{newitem.quantities}"></h:outputText>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+
+            <h2> UI:Repeat </h2>
+            <ui:repeat var="o" value="#{panier.prodList}" varStatus="status">
+                <td>#{o.product}</td>
+                <td>#{o.quantities}</td> <P></P>
+                #{status}<p></p>
+            </ui:repeat>
+
+
+
+        </h:form>
+    </h:body>
+</html>
+

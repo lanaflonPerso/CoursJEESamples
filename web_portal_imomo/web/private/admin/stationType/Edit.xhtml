@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StationTypeEditDlg" widgetVar="StationTypeEditDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.EditStationTypeTitle}">
+
+            <h:form id="StationTypeEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{stationTypeController.selected != null}">
+
+                        <h:outputLabel value="#{bundle.EditStationTypeLabel_stationTypeID}" for="stationTypeID" />
+                        <h:outputText id="stationTypeID" value="#{stationTypeController.selected.stationTypeID}" />
+
+                        <p:outputLabel value="#{bundle.EditStationTypeLabel_typeName}" for="typeName" />
+                        <p:inputText id="typeName" value="#{stationTypeController.selected.typeName}" title="#{bundle.EditStationTypeTitle_typeName}" required="true" requiredMessage="#{bundle.EditStationTypeRequiredMessage_typeName}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{stationTypeController.update('/private/admin/stationType/')}" value="#{bundle.Save}" update="display :StationTypeListForm:datalist :growlStation" oncomplete="StationTypeEditDialog.hide();"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="StationTypeEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

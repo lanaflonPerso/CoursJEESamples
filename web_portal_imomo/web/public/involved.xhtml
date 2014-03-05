@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Get involved</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+                <div id="divInvolved" class="divMainBody divMarginPadding divBorder">
+                        <h2>#{i18n.involvedTitle}</h2>
+                        <p>#{i18n.involvedText}</p>
+                        <div  style="text-align: center;">
+                            <div id="divFormInvolved">
+                                <ui:include src="/template/commonTemplateCreateUser.xhtml"></ui:include>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="divCommingSoon divMarginPadding">
+                            <h:outputLink class="linkImgCommingSoon" value="/web_portal_imomo/resources/img/involved.jpg">     
+                                <p:graphicImage value="/resources/img/involved.jpg" />
+                            </h:outputLink>
+                </div> 
+                <div style="clear:both;"></div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

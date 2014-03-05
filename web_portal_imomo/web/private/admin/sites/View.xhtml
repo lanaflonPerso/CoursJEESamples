@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="SitesViewDlg" widgetVar="SitesViewDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.ViewSitesTitle}">
+
+            <h:form id="SitesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sitesController.current != null}">
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_siteID}"/>
+                        <h:outputText value="#{sitesController.selected.siteID}" title="#{bundle.ViewSitesTitle_siteID}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_siteCode}"/>
+                        <h:outputText value="#{sitesController.selected.siteCode}" title="#{bundle.ViewSitesTitle_siteCode}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_siteName}"/>
+                        <h:outputText value="#{sitesController.selected.siteName}" title="#{bundle.ViewSitesTitle_siteName}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_latitude}"/>
+                        <h:outputText value="#{sitesController.selected.latitude}" title="#{bundle.ViewSitesTitle_latitude}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_longitude}"/>
+                        <h:outputText value="#{sitesController.selected.longitude}" title="#{bundle.ViewSitesTitle_longitude}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_state}"/>
+                        <h:outputText value="#{sitesController.selected.state}" title="#{bundle.ViewSitesTitle_state}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_county}"/>
+                        <h:outputText value="#{sitesController.selected.county}" title="#{bundle.ViewSitesTitle_county}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_latLongDatumID}"/>
+                        <h:outputText value="#{sitesController.selected.latLongDatumID.spatialReferenceID}"/>
+
+                        <h:outputText value="#{bundle.ViewSitesLabel_stationCollection}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SitesViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>

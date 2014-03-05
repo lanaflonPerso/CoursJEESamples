@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template/commonLayout.xhtml">
+
+        <ui:define name="pageTitle">User Admin</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+
+                <div class="divMainPart">
+
+
+                    <p:panel header="Add new user">
+                        <ui:include src="/template/commonTemplateCreateUser.xhtml"></ui:include>
+                    </p:panel>
+
+                    <h:form id="formConfirmDeleteUserDialog">
+                        <p:growl id="messages" />
+
+                        <p:confirmDialog id="confirmDeleteUserDialog" message="Are you sure about deleting #{userController.selected.firstname} #{userController.selected.lastname} ?" header="Delete a user" severity="alert" widgetVar="confirmDeleteUserDialog" >
+                            <p:commandButton id="confirm" value="Yes Sure" update="messages :formTableUsers" oncomplete="confirmDeleteUserDialog.hide();" actionListener="#{userController.delete('/private/admin/user/')}"/>
+                            <p:commandButton id="decline" value="Not Yet" onclick="confirmDeleteUserDialog.hide();" type="button"/>
+                        </p:confirmDialog>
+
+                    </h:form>
+                    <h:form id="formTableUsers">  
+
+                        <p:dataTable id="dataTable" var="user" value="#{userController.list}" widgetVar="usersTable"   
+                                     emptyMessage="No user found" filteredValue="#{userController.listFilteredUsers}" >
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search :"  />  
+                                    <p:inputText id="globalFilter" onkeyup="usersTable.filter();" style="width: 50%;"/>  
+                                </p:outputPanel>
+                            </f:facet>  
+
+                            <p:column styleClass="columnDataUserLarge"  filterBy="#{user.lastname},#{user.firstname}"
+                                      headerText="Name"
+                                      filterMatchMode="contains" filterStyle="display:none;">                                
+                                    <h:outputText value="#{user.firstname} #{user.lastname}" />                                  
+                            </p:column>
+                            <p:column styleClass="columnDataUserLarge" headerText="Nickname" filterBy="#{user.nickname}"
+                                      filterMatchMode="contains" filterStyle="display:none;">                                
+                                    <h:outputText value="#{user.nickname}" /> <br/>
+                            </p:column> 
+                            <p:column styleClass="columnDataUserLarge" headerText="Phone No." filterBy="#{user.phoneNb}"
+                                      filterMatchMode="contains" filterStyle="display:none;">                                
+                                    <h:outputText value="#{user.phoneNb}" /> <br/>
+                            </p:column> 
+                            <p:column styleClass="columnDataUserLarge" headerText="Culture" filterBy="#{user.culture}"
+                                      filterMatchMode="contains" filterStyle="display:none;">                                
+                                    <h:outputText value="#{user.culture}" /> <br/>
+                            </p:column> 
+                            <p:column styleClass="columnDataUserLarge" headerText="GSM Terminal ID" filterBy="#{user.gsmTerminalID}"
+                                      filterMatchMode="contains" filterStyle="display:none;">                                
+                                    <h:outputText value="#{user.gsmTerminalID}" /> <br/>
+                            </p:column>                             
+                            <p:column styleClass="columnDataUserLarge" headerText="Roles"
+                                      filterMatchMode="contains" filterStyle="display:none;">
+                                    <p:dataList value="#{userController.getListRoles(user)}" var="role">
+                                        <h:outputText value="#{role}"/>
+                                    </p:dataList>
+                            </p:column> 
+                            <p:column styleClass="columnDataUserLarge" headerText="Active?"
+                                      filterMatchMode="contains" filterStyle="display:none;">
+                                    <h:outputText style="color: red;" value="NOT ACTIVE" rendered="#{!user.activated}"/>
+                                    <h:outputText style="color: green;" value="ACTIVE" rendered="#{user.activated}"/>
+                            </p:column>     
+                            
+
+
+                            <p:column styleClass="columnDataUserSmall" filterBy="#{user.lastname},#{user.firstname},#{user.phoneNb},#{user.nickname}"
+                                      headerText="Firstname"
+                                      filterMatchMode="contains" filterStyle="display:none;">
+                                <h:panelGroup>
+                                    <h:outputText value="#{user.firstname}" /><br/>
+                                    <h:outputText value="#{user.lastname}" /><br/>
+                                    <h:outputText value="#{user.phoneNb}" /><br/>
+                                    <h:outputText value="#{user.nickname}" /><br/>
+                                    <h:outputText value="#{user.gsmTerminalID}" /><br/>
+                                    <h:outputText value="#{user.culture}" /><br/>
+                                    <p:dataList value="#{userController.getListRoles(user)}" var="role">
+                                        <h:outputText value="#{role}"/>
+                                    </p:dataList>
+                                    <h:outputText style="color: red;" value="NOT ACTIVE" rendered="#{!user.activated}"/>
+                                    <h:outputText style="color: green;" value="ACTIVE" rendered="#{user.activated}"/>
+                                </h:panelGroup>
+                            </p:column>
+
+                            <p:column >
+                                <h:panelGroup>
+                                    <p:commandLink action="/private/admin/user/Edit">  
+                                        <h:outputText styleClass="ui-icon ui-icon-pencil"/>
+                                        <f:setPropertyActionListener value="#{user}" target="#{userController.current}" />  
+                                    </p:commandLink>
+                                    <p:separator/>
+                                    <p:commandLink update=":formConfirmDeleteUserDialog:confirmDeleteUserDialog" oncomplete="confirmDeleteUserDialog.show()" title="Delete user">  
+                                        <h:outputText styleClass="ui-icon ui-icon-trash"/>   
+                                        <f:setPropertyActionListener value="#{user}" target="#{userController.current}" />  
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                        </p:dataTable>  
+
+
+                    </h:form> 
+
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

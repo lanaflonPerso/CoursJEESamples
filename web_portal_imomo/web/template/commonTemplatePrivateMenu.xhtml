@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>TODO supply a title</title>
+    </head>
+    <body>
+        <ui:composition>
+
+            <div id="divMenu" class="divMainPart">
+                <div id="divPrivateMenu" class="divMarginPadding" style="font-size: 0.7em">
+                    <h:form id="formPrivateMenu">  
+                        <p:growl id="messages" autoUpdate="true"/> 
+                        <p:panelMenu style="width:100%" > 
+                            <c:if test="#{credentialBean.hasRequiredRole(rolesBean.roleAdmin)}" >
+                                <p:submenu label="ADMIN">                                    
+                                    <p:menuitem value="User admin" outcome="/private/admin/user/List"/>
+                                    <p:menuitem value="Station Admin" outcome="/private/admin/stationAdmin"/>
+                                    <p:menuitem value="Game Admin" outcome="/private/admin/gameAdmin/List"/>      
+                                </p:submenu>  
+                            </c:if>
+                            <c:if test="#{credentialBean.hasRequiredRole(rolesBean.rolePbwb)}" >
+                                <p:submenu label="PBWB">  
+                                    <p:menuitem value="See Data" outcome="/private/pbwb/seeData"/>  
+                                    <p:menuitem value="Collect Data" outcome="/private/pbwb/collectData"/>
+                                </p:submenu>  
+                            </c:if>
+                            <c:if test="#{credentialBean.hasRequiredRole(rolesBean.roleGameUsers)}" >
+                                <p:submenu label="GAME USERS">  
+                                    <p:menuitem value="Game" outcome="/private/gameUsers/game"/>  
+                                    <p:menuitem value="Rules" outcome="/private/gameUsers/rules"/>
+                                    <p:menuitem value="Score" outcome="/private/gameUsers/score"/> 
+                                    <p:menuitem value="Community" outcome="/private/gameUsers/community"/> 
+                                    <p:menuitem value="Forecast" outcome="/private/gameUsers/forecast"/> 
+                                </p:submenu>
+                            </c:if>
+                            <c:if test="#{credentialBean.hasRequiredRole(rolesBean.roleResearch)}" >
+                                <p:submenu label="RESEARCH">  
+                                    <p:menuitem value="Documentation" outcome="/private/research/documentation"/>  
+                                    <p:menuitem value="Licensing" outcome="/private/research/licensing"/>
+                                    <p:menuitem value="Contribute" outcome="/private/research/contribute"/> 
+                                    <p:menuitem value="Download" outcome="/private/research/download"/> 
+                                    <p:menuitem value="Forum" outcome="/private/research/forum"/>
+                                    <p:menuitem value="News" outcome="/private/research/news"/>
+                                </p:submenu>
+                            </c:if>
+                            <c:if test="#{credentialBean.hasRequiredRole(rolesBean.roleImomoTeam)}" >
+                                <p:submenu label="IMOMO TEAM">
+                                    <p:menuitem value="News" outcome="/private/imomoTeam/news"/>  
+                                    <p:menuitem value="Files" outcome="/private/imomoTeam/files"/>
+                                    <p:menuitem value="Forum" outcome="/private/imomoTeam/forum"/> 
+                                </p:submenu>
+                            </c:if>
+                        </p:panelMenu>  
+                    </h:form>  
+                </div>
+            </div>
+
+        </ui:composition>
+    </body>
+</html>

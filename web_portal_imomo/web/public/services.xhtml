@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Approach</ui:define>
+        <ui:define name="pageBody">
+                <div id="divBody" class="divMainPart">
+                    <div id="divServices" class="divMainBody divMarginPadding divBorder">
+                        <h2>Approach</h2>
+                        <h3>Anthropotechnology Foundation</h3>
+                        <p>Anthropotechnology plays the key role for translating the iMoMo approach into a ‘toolbox’ that consists of a set of integrated blue-prints so as to make the technology globally replicable and portable. Depending on local circumstances, individual components can be dialed in as needed, e.g. energy-supply solutions in remote off-grid locations.</p>
+                        <p>For a paradigm shift to occur however, simple technology transfer with the goal to enable crowd-sourcing-fueled resources management is insufficient. Wide-spread adoption for the creation of data and information rich environments cannot be guaranteed like this. Hence,
+anthropotechnology is working on tailoring blue-prints to local realities.</p>
+                        <p>Place-specific differences in the social fabric of societal groups, the core issues they face with regard to the sustenance of their livelihoods and related daily struggles as well as their cultural peculiarities need to be carefully taken into account so as to ensure a successful and longterm local anchoring in communities and institutions.</p>
+                        <p>For this purpose, the anthropotechnological perspective of the iMoMo framework departs from stakeholders’ needs and wants in their local and regional context and puts them at the center. Stakeholders include all types of users and agencies that act and interact in a local
+environmental and socio-economic context, e.g. farmers, responsible village-level persons for irrigation and drainage, local office water managers, water ministry officials, etc.</p>
+                        <h3>Technology</h3>
+                        <p>The backbone of the iMoMo framework enables flow and management of data and information between stakeholders, data repositories
+(databases) and analytical tools for decision-support via GSM/Internet technology. Using SMS/USSD/Internet-based protocols for communication, this circular approach ensures data transmission without break points for digital information.</p>
+                        <p>Data and information is stored in and managed by a state-of-the-art hydro-climatological database implemented in the open-source MySQL database management system.</p>
+                        <p>The iMoMo technology is plug-and-play in the sense that any type of sensor that is compatible with iMoMo specifications can be coupled to any type of controller. The latter can e.g. be a specifically dedicated energy autarkic controller or any solution based on Arduino / Raspberry
+Pi community efforts.</p>
+                        <p>In the case of Arduino, for example, there is a vibrant community that has developed controllers for linking low-cost soil moisture sensors, anemometers, temperature and humidity sensors and even low-cost meteorological stations to computers, for calibrating them and for data
+retrieval. Through embracing the open innovation plug-and-play approach within iMoMo, the projects technology choice exhibits the kind of flexibility that makes it globally applicable.</p>
+                    </div>
+
+                    <div class="divCommingSoon divMarginPadding">
+                            <p:lightBox>
+                                <h:outputLink class="linkImgCommingSoon" value="/web_portal_imomo/resources/img/approach1.jpg">     
+                                    <p:graphicImage value="/resources/img/approach1.jpg" />  
+                                </h:outputLink>
+                                <h:outputLabel>Understanding and mapping the needs and wants of local population and cultures is the point of departure of iMoMo.</h:outputLabel> 
+                                <h:outputLink class="linkImgCommingSoon" value="/web_portal_imomo/resources/img/approach2.jpg">     
+                                    <p:graphicImage value="/resources/img/approach2.jpg" />
+                                </h:outputLink> 
+                                <h:outputLabel>Different types of sensor / controller technologies can interface with iMoMo which makes the technology globally applicable, even in places where energy constraints are binding.</h:outputLabel> 
+                            </p:lightBox>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

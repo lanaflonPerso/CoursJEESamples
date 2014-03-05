@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <p:growl id="growlStation" life="3000"/>
+    <p:layout style="min-width: 200px;min-height:700px;">
+        <p:layoutUnit position="north" size="100">
+            <ui:include src="/private/admin/appmenu.xhtml"/>
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center" resizable="true">
+            <ui:insert name="body">
+                <ui:include src="/private/admin/sites/List.xhtml"/>
+                <ui:include src="/private/admin/sites/View.xhtml"/>
+                <ui:include src="/private/admin/sites/Edit.xhtml"/>
+                <ui:include src="/private/admin/sites/Create.xhtml"/>
+            </ui:insert>
+        </p:layoutUnit>
+
+    </p:layout>
+</html>

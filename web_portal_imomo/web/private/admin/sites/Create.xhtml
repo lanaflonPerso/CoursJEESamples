@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="SitesCreateDlg" widgetVar="SitesCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.CreateSitesTitle}">
+
+            <h:form id="SitesCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_siteCode}" for="siteCode" />
+                        <p:inputText id="siteCode" value="#{sitesController.newSelected.siteCode}" title="#{bundle.CreateSitesTitle_siteCode}" required="true" requiredMessage="#{bundle.CreateSitesRequiredMessage_siteCode}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_siteName}" for="siteName" />
+                        <p:inputText id="siteName" value="#{sitesController.selected.siteName}" title="#{bundle.CreateSitesTitle_siteName}" required="true" requiredMessage="#{bundle.CreateSitesRequiredMessage_siteName}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_latitude}" for="latitude" />
+                        <p:inputText id="latitude" value="#{sitesController.selected.latitude}" title="#{bundle.CreateSitesTitle_latitude}" required="true" requiredMessage="#{bundle.CreateSitesRequiredMessage_latitude}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_longitude}" for="longitude" />
+                        <p:inputText id="longitude" value="#{sitesController.selected.longitude}" title="#{bundle.CreateSitesTitle_longitude}" required="true" requiredMessage="#{bundle.CreateSitesRequiredMessage_longitude}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{sitesController.selected.state}" title="#{bundle.CreateSitesTitle_state}" />
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_county}" for="county" />
+                        <p:inputText id="county" value="#{sitesController.selected.county}" title="#{bundle.CreateSitesTitle_county}" />
+
+                        <p:outputLabel value="#{bundle.CreateSitesLabel_latLongDatumID}" for="latLongDatumID" />
+                        <p:selectOneMenu id="latLongDatumID" value="#{sitesController.selected.latLongDatumID}" required="true" requiredMessage="#{bundle.EditSitesRequiredMessage_latLongDatumID}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{spatialreferencesController.list}"
+                                           var="latLongDatumIDItem"
+                                           itemValue="#{latLongDatumIDItem}"
+                                           itemLabel="#{latLongDatumIDItem.spatialReferenceID.toString()}"
+                                           />
+                            <f:converter binding="#{spatialreferencesConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sitesController.create('/private/admin/sites/')}" value="#{bundle.Save}" update="display :SitesListForm:datalist :growlStation" oncomplete="SitesCreateDialog.hide();"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SitesCreateDialog.hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>

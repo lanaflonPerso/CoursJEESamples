@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition>
+
+
+        <h:form id="SitesListForm">
+
+            <p:panel header="#{bundle.ListSitesTitle}">
+
+                <p:dataTable id="datalist" value="#{sitesController.list}" var="item"
+                             selectionMode="single" selection="#{sitesController.current}"
+                             rowKey="#{item.siteID}"
+                             paginator="true"
+                             rows="15"
+                             rowsPerPageTemplate="15,30,50"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                    <p:column sortBy="#{item.siteID}" filterBy="#{item.siteID}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_siteID}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.siteID}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.siteCode}" filterBy="#{item.siteCode}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_siteCode}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.siteCode}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.siteName}" filterBy="#{item.siteName}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_siteName}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.siteName}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.latitude}" filterBy="#{item.latitude}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_latitude}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.latitude}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.longitude}" filterBy="#{item.longitude}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_longitude}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.longitude}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.state}" filterBy="#{item.state}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_state}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.state}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.county}" filterBy="#{item.county}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_county}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.county}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.latLongDatumID.spatialReferenceID}" filterBy="#{item.latLongDatumID.spatialReferenceID}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListSitesTitle_latLongDatumID}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.latLongDatumID.spatialReferenceID}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" update=":SitesCreateForm" oncomplete="SitesCreateDialog.show();"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SitesViewForm" oncomplete="SitesViewDialog.show()" disabled="#{empty sitesController.current}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SitesEditForm" oncomplete="SitesEditDialog.show()" disabled="#{empty sitesController.current}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update="datalist :growlStation" actionListener="#{sitesController.delete('/private/admin/sites/')}" disabled="#{empty sitesController.current}"/>
+                    </f:facet>
+
+                </p:dataTable>
+
+            </p:panel>
+
+        </h:form>
+    </ui:composition>
+</html>

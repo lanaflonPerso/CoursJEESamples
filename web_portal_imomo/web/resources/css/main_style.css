@@ -1,0 +1,457 @@
+/* 
+    Document   : mainStyle
+    Created on : 3 juin 2013, 10:09:42
+    Author     : Raphaël
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+/* ************** DIV ID ************ */
+#divPage{
+    background-color: #FFFFFF;
+    width: 80%;
+    margin: auto;
+}
+
+/* **** DIV TOP *** */
+#divMsgOldNavigator{
+    text-align: center;
+    background-color: gold;
+    color: darkblue;
+    font-size: 1.2em;
+}
+#divFormInvolved{
+    display:inline-block;
+    margin:10px;
+    padding:20px 0px 20px 0px;
+    width: 85%;
+}
+
+#menuBarHeader{
+    text-align: center;
+}
+
+/* **** DIV CENTER *** */
+#divImages{
+    text-align: center;
+}
+
+#formInvolved
+input[type=text],
+#formInvolved
+input[type=password],
+#formInvolved button{
+    width:100%;
+}
+
+.editUserComponent{
+    display:block;
+    width: 90%;
+}
+/* **** DIV BOTTOM *** */
+#divBottom{
+    text-align:center;
+    background-color: #656E75;
+}
+
+#divBottom a{
+    color: #92CD00;
+}
+
+/* ************** DIV CLASS ************ */
+.layout{
+    padding: 2px;
+    margin: 2px;
+}
+
+.divMainPart{
+    padding: 2px;
+    margin: 2px;
+    background-color: #FFFFFF;
+}
+
+.divBorder{
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.inlineBlock{
+    display: inline-block;
+}
+
+.divMarginPadding{
+    padding: 2px;
+    margin: 2px;
+}
+
+.divCommingSoon img{
+    margin:5px;
+    display:block;
+    width:90%
+}
+
+.imgCommingSoon{
+    display:inline-block;
+}
+
+.msgError{
+    color: red;
+}
+
+/* ****************** MEDIA QUERIES ********************* */
+@media (min-width: 769px)
+{
+    html, body {
+        height: 100%;
+        background-color: #E6E7E8;
+        border: 0px solid transparent;
+        text-align: justify;
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.9em;
+        margin: 0px;
+        min-height: 100%;
+        padding: 0px;
+        width: 100%;
+    }
+
+    #divLogo{
+        /*        display: inline-block;*/
+        width:10%;
+        float:left;
+    }
+
+    #divMenuHeader{
+        width: 87%;
+        float:right;
+        padding-top: 3%;
+        /*        display: inline-block;*/
+    }
+
+    .pairInvolved{
+        text-align: center;
+    }
+
+    .componentInvolved{
+        width:40%;
+        display:inline-block;
+    }
+
+    #divWhatWeDo{
+        display: inline-block;
+        width: 60%;
+    }
+
+    #divLatestNews{
+        float:right;
+        display: inline-block;
+        width:35%;
+    }
+
+    #divFooterImg{
+        float:left;
+        display: inline-block;
+        width: 10%;
+    }
+
+    #divMission{
+        background-color: #656E75;
+        text-align: justify;
+        float:left;
+        display: inline-block;
+        width: 25%;
+    }
+
+    #divFindUs{
+        background-color: #656E75;
+        text-align: justify;
+        display: inline-block;
+        width: 50%;
+    }
+
+    #divContact{
+        background-color: #656E75;
+        text-align: justify;
+        float:right;
+        display: inline-block;
+        width: 19%;
+    }
+    nav a{
+        white-space: nowrap;
+        padding-right: 30px;
+    }
+
+    .divMainBody{
+        width:70%;
+        display: inline-block;
+        padding: 1%;
+    }
+
+    .divCommingSoon{
+        width:25%;
+        float:right;
+        display:inline-block;
+    }
+
+    #divBottom{
+        display:block;
+    }
+
+    #layoutMenu{
+        float:left;
+        width: 11%;
+    }
+    #layoutBodyForMenu{
+        float:right;
+        width: 87%;
+    }
+
+    .columnDataUserSmall{
+        display:none;
+    }
+}
+@media (min-width: 480px) and (max-width: 768px) {
+    html, body {
+        height: 100%;
+        background-color: #E6E7E8;
+        border: 0px solid transparent;
+        text-align: justify;
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.9em;
+        margin: 0px;
+        min-height: 100%;
+        padding: 0px;
+        width: 100%;
+    }
+
+    #divPage{
+        width:99%;
+    }
+    #divLogo{
+        display: block;
+    }
+
+    #divNavig{
+        text-align: left;
+        display : block;
+        float: none;
+    }
+
+    #divInvolved{
+        display: block;
+    }
+
+    #divFormInvolved{
+        width: 85%;
+    }
+
+    .pairInvolved{
+        text-align: center;
+    }
+
+    .componentInvolved{
+        width:40%;
+        display:inline-block;
+    }
+
+    #divFooterImg{
+        display: none;
+    }
+
+    #divMission{
+        text-align: justify;
+        display: block;
+    }
+
+    #divFindUs{
+        text-align: justify;
+        display: block;
+    }
+
+    #divContact{
+        text-align: justify;
+        display: block;
+    }
+
+    nav a{
+        white-space: nowrap;
+        padding-right: 30px;
+    }
+
+    #brMenu{
+        visibility: visible;
+    }
+
+    .divMainBody{
+        display: inline-block;
+    }
+
+    .columnDataUserLarge{
+        display:none;
+    }
+}
+
+
+@media (max-width: 479px)
+{
+    html, body {
+        height: 100%;
+        background-color: #E6E7E8;
+        border: 0px solid transparent;
+        text-align: justify;
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.8em;
+        margin: 0px;
+        min-height: 100%;
+        padding: 0px;
+        width: 100%;
+    }
+
+    .layout{
+        margin :1px;
+        padding:1px;
+    }
+    .divMainPart{
+        margin:1px;
+        padding:1px;
+        width: 100%;
+    }
+
+    .divMarginPadding{
+        margin: 1px;
+        padding:1px;
+    }
+
+    .divBorder{
+        border-width: 0px;
+        border-color: black;
+        border-style: solid;
+    }
+
+    #divPage{
+        width: 98%;
+        margin:auto;
+    }
+
+    #divNavig button, #divNavig input{
+        width:90%;
+    }
+
+    #divMenuHeader ul{
+        text-align: left;
+
+    }
+
+    .pairInvolved{
+        text-align: center;
+    }
+
+    #divFormInvolved{
+        margin:0px;
+        width:100%;
+    }
+
+    #divBody{
+        width: 100%;
+        margin: auto;
+    }
+
+    #divWhatWeDo{
+        display: block;
+    }
+
+    #divLatestNews{
+        display: block;
+    }
+
+    #divBottom{
+        width: 100%;
+        margin:auto;
+    }
+
+    #divMission{
+        text-align: justify;
+        display: block;
+        width: 100%;
+    }
+
+    noborder{
+        border: none;
+    }    
+    
+    #divFindUs{
+        text-align: justify;
+        display: block;
+        width: 100%;
+    }
+
+    #divContact{
+        text-align: justify;
+        display: block;
+        width: 100%;
+    }
+
+    .columnDataUserLarge{
+        display:none;
+    }
+}
+
+.icon-tz-delete{
+/*    background-image: url('../../resources/css/SWadd.jpg');*/
+    max-width: 30px;
+}
+
+.icon-tz-add{
+/*    background-image: url('../../resources/css/SWadd.jpg');*/
+    max-width: 30px;
+    clear: both;
+}
+
+.title{
+    color: #800000;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.title-footer{
+    color: #FF9900;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.bgcolor-footer{
+    background-color: #3D362D; 
+}
+
+.content-footer{
+    color: #FFFFFF;
+}
+
+#layoutFooter, #divBottom{
+    background-color: #3D362D; 
+}
+
+#projectTitle{
+    color: #92CD00;
+    font-weight: bold;
+    font-size: 2em;
+    float: right;    
+}
+
+#gallery, #gallery_content{
+    padding: 0px;
+}
+
+.word-wrap{
+    white-space: normal !important;
+    font-size: 0.9em !important;
+}
+
+.test {
+    padding: 1px !important;
+    white-space: normal !important;
+    
+}

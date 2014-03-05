@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">Welcome</ui:define>
+        <ui:define name="pageBody">
+            <h:body>
+                <div id="divBody" class="divMainPart">
+                    <div id="divImages" class="divMarginPadding">     
+                        <p:panel id="gallery">
+                            <div class="section-2 group">
+                                <ul id="images" class="rs-slider">
+                                    <li class="group"><a href="#"><img src="resources/img/tz1.jpg" alt="" /></a></li>
+                                    <li class="group"><a href="#" class="slide-parent"><img src="resources/img/tz2.jpg" alt=""/></a></li>
+                                    <li class="group"><img src="resources/img/tz3.jpg" alt=""/></li>
+                                    <li class="group"><img src="resources/img/tz4.jpg" alt=""/></li>
+                                </ul>
+                            </div>
+                        </p:panel>
+                    </div>
+                    <div id="divWhatWeDo" class="divMarginPadding">
+                        <p:panel> 
+                                <p:outputLabel styleClass="title">What We Do</p:outputLabel> <br /><br />
+                                <p:outputLabel>
+                                <p>Rapid advancements in low-cost sensor and communication technology approaches have the potential to help improving the use effectiveness and sustainability of water. iMoMo presents a new vision to address global water challenges through crowd-sourced, open-innovation monitoring.
+                                </p>    
+                                <p>        
+                                iMoMo embraces the concept that any stakeholder (farmers, local organizations, NGOs, industry, governmental bodies, etc.) can contribute any type of data to the iMoMo knowledge system, including quantitative and qualitative data. It relies on state-of-the-art open innovation technology for achieving this and is built around a backbone architecture which has been designed with openness, extensibility and portability in mind.
+                                </p>
+                                <p>
+                                    <ul>
+                                        <li> Openness allows capitalizing on mass innovation in the low-cost, high-tech technology domain.</li>
+                                        <li> Extensibility enables growth on demand through the architecture’s scalability.</li>
+                                        <li> Portability guarantees well identified cultural and socio-economic interfaces for global application and deployment across different contexts.</li>
+                                    </ul>    
+                                </p>
+                                </p:outputLabel>
+
+                        </p:panel>
+                    </div> <!-- fin div divWhatWeDo-->
+
+                    <div id="divLatestNews" class="divMarginPadding">
+                        <p:panel>
+                            <p>
+                                <p:outputLabel styleClass="title">Latest News</p:outputLabel> <br /><br />
+                                <p:outputLabel>
+
+                                </p:outputLabel>
+                            </p>
+                        </p:panel>
+                    </div> <!-- fin div divLatestNews-->
+
+                    <div style="clear:both;"></div>
+                </div> <!-- fin div divCenter-->
+
+            </h:body>
+
+
+
+
+
+
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+

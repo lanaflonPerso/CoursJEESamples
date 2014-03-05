@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="pageTitle">The Project</ui:define>
+        <ui:define name="pageBody">
+            <div id="divBody" class="divMainPart">
+
+                <div id="divProject" class="divMainBody divMarginPadding divBorder">
+                        <h2>The Project</h2>
+                        
+                        <h3>Global Motivation</h3>
+                        <p>Freshwater resources are increasingly degraded and depleted, especially in developing and transitional economies. Rising population numbers, changing nutritional demand and significant climate uncertainty will exacerbate water-related stress in the future. </p>
+                        <p>Efforts to increase water efficiencies are often hampered by the inadequate availability of good data and proper tools that monitor, model and inform and manage water supplies in tactical and strategic terms. Traditional water monitoring is too often a story of failures and
+                            inefficient investments. One of the key underlying reasons is that there are no economies of scales in traditional resource monitoring approaches.</p>
+                        <p>Rapid advancements in low-cost sensor and communication technology, hardware / software integration and plug-and-play with
+open innovation technology have the potential to help improving the use effectiveness and sustainability of water resources and to strengthen hydro-meteorological services. If this technology choice is coupled to stakeholders through crowd-souring and -funding, ownership can be fostered and knowledge about resources and their complex dynamics generated.</p>
+                        <p>There is thus a potential at global levels to further develop novel, lowcost technology-based and peoples-centered approach for better water resources management. This is where user needs and technological opportunities meet for innovation and a paradigm shift in water and the point of departure of the iMoMo project.</p>
+                        
+                        <h3>Vision</h3>
+                        <p>
+                            iMoMo’s vision is to create data rich environments for effective and sustainable water resources use. iMoMo is an open framework for data transfer, data management, quantitative decision-support so as to make environmental information and management advice widely
+available across the stakeholders landscape. </p>
+                        <p>
+                            iMoMo embraces the concept that any stakeholder (farmers, local organizations, NGOs, industry, governmental bodies, etc.) can
+contribute any type of data to the iMoMo knowledge system, including quantitative and qualitative data. </p>
+                        <p>
+                            It relies on state-of-the-art open innovation technology for achieving this and is built around a backbone architecture which has been designed with openness, extensibility and portability in mind. </p>
+                        <p>
+                            <ul>
+                                <li> Openness allows capitalizing on mass innovation in the low-cost, high-tech technology domain.</li>
+                                <li> Extensibility enables growth on demand through the architecture’s scalability.</li>
+                                <li> Portability guarantees well identified cultural and socio-economic interfaces for global application and deployment across different contexts.</li>
+                            </ul>  
+                        </p>
+                </div>
+
+                <div class="divCommingSoon divMarginPadding">
+                        <p:lightBox>
+                            <h:outputLink class="linkImgCommingSoon imgCommingSoon" value="/web_portal_imomo/resources/img/project1.jpg">
+                                <p:graphicImage value="/resources/img/project1.jpg"/>                                  
+                            </h:outputLink>
+                            <h:outputLabel>Water resources management based on traditional water monitoring is too often a story of failure and inefficient
+investments.</h:outputLabel> 
+                            <h:outputLink class="linkImgCommingSoon imgCommingSoon" value="/web_portal_imomo/resources/img/project2.jpg">
+                                <p:graphicImage value="/resources/img/project2.jpg"/>                                  
+                            </h:outputLink>
+                            <h:outputLabel>By putting users into the focus, GSM-based communication and new sensor technology help to emphasize and solve the
+distributed nature of environmental monitoring problems.</h:outputLabel> 
+                        </p:lightBox>
+                </div>
+                <div style="clear:both;"></div>
+            </div> <!-- fin div divCenter-->
+        </ui:define>
+    </ui:composition>
+</html>
+

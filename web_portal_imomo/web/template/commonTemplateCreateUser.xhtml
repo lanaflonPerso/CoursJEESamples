@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition>
+        <h:form id="formInvolved" >
+            <p:messages id="formInvolvedMsg"/>
+            <p:panel>
+                <!--*************** FIRST NAME *************** -->
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedFirstName" value="#{i18n.involvedFirstName}:" /></div>
+                    <div class="componentInvolved">
+                        <p:inputText  id="involvedFirstName" value="#{userController.newSelected.firstname}" required="true" requiredMessage="#{i18n.involvedFirstNameRequired}" maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:ajax event="blur" execute="formInvolved:involvedFirstName" render="formInvolved:msgFirstNameError"></f:ajax>
+                        </p:inputText>
+                        <p:watermark for="involvedFirstName" value="#{i18n.involvedFirstName}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value="" /></div>
+                    <div class="componentInvolved"><p:message id="msgFirstNameError" for="involvedFirstName"/></div>
+                </div><br/>
+                <!--*************** LAST NAME *************** --> 
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedLastName" value="#{i18n.involvedLastName}:" /></div>
+                    <div class="componentInvolved">
+                        <p:inputText id="involvedLastName" value="#{userController.selected.lastname}" required="true" requiredMessage="#{i18n.involvedLastNameRequired}"  maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:ajax event="blur" execute="formInvolved:involvedLastName" render="formInvolved:lastNameError"></f:ajax>
+                        </p:inputText>
+                        <p:watermark for="involvedLastName" value="#{i18n.involvedLastName}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value="" /></div>
+                    <div class="componentInvolved"><p:message id="lastNameError" for="involvedLastName" /></div>
+                </div><br/>
+                <!--*************** PHONE *************** --> 
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedPhone" value="#{i18n.involvedPhone}:" /></div>
+                    <div class="componentInvolved">
+                        <p:inputText id="involvedPhone" value="#{userController.selected.phoneNb}" required="true" requiredMessage="#{i18n.involvedPhoneRequired}"  maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:ajax event="blur" execute="formInvolved:involvedPhone" render="formInvolved:phoneError"></f:ajax>                                                 
+                            <f:validateRegex pattern="^([+]?[\d]+)?$"  for="involvedPhone"  />
+
+                        </p:inputText>  
+                        <p:watermark for="involvedPhone" value="#{i18n.involvedPhone}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value="" /></div>
+                    <div class="componentInvolved"><p:message id="phoneError" for="involvedPhone" /></div>
+                </div><br/>
+                <!--*************** USERNAME *************** --> 
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedUsername" value="#{i18n.involvedUserName}:"/></div>
+                    <div class="componentInvolved">
+                        <p:inputText id="involvedUsername" value="#{userController.selected.nickname}" required="true" requiredMessage="#{i18n.involvedUsernameRequired}"  maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:validator validatorId="usernameValidator" />
+                            <f:ajax event="blur" execute="formInvolved:involvedUsername" render="formInvolved:usernameError formInvolved:msgUsernameError"></f:ajax>
+                        </p:inputText>
+                        <p:watermark for="involvedUsername" value="#{i18n.involvedUserName}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value=""/></div>
+                    <div class="componentInvolved">
+                        <p:outputLabel id="usernameError" styleClass="msgError" value=""/>
+                        <p:message id="msgUsernameError" for="involvedUsername"/>
+                    </div>
+                </div><br/>
+                <!--*************** PASSWORD 1 *************** --> 
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedPassword" value="#{i18n.involvedPassword}:"/></div>
+                    <div class="componentInvolved">
+                        <p:password id="involvedPassword" value="#{userController.selected.password}" binding="#{userController.inputHtmlPassword}" required="true" requiredMessage="#{i18n.involvedPasswordRequired}" maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:validator validatorId="confirmPasswordValidator" />
+                            <f:attribute name="involvedConfirmPassword" value="#{userController.inputHtmlConfirmPassword.submittedValue}" /> 
+                            <f:ajax event="blur" execute="formInvolved:involvedPassword formInvolved:involvedConfirmPassword" render="formInvolved:passwordError"></f:ajax>
+                        </p:password>
+                        <p:watermark for="involvedPassword" value="#{i18n.involvedPassword}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value=""/></div>
+                    <div class="componentInvolved"><p:message id="passwordError" for="involvedPassword" /></div>
+                </div><br/>
+                <!--*************** CONFIRM PASSWORD *************** --> 
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel for="involvedConfirmPassword" value="#{i18n.involvedConfirmPassword}:" /></div>
+                    <div class="componentInvolved">
+                        <p:password id="involvedConfirmPassword" value="#{userController.confirmPassword}" binding="#{userController.inputHtmlConfirmPassword}" required="true" requiredMessage="#{i18n.involvedConfirmPasswordRequired}"  maxlength="#{constantBean.maxSizeNormalInput}">
+                            <f:ajax event="blur" execute="formInvolved:involvedPassword formInvolved:involvedConfirmPassword" render="formInvolved:passwordError formInvolved:confirmPasswordError"></f:ajax>
+                        </p:password>
+                        <p:watermark for="involvedConfirmPassword" value="#{i18n.involvedPassword}"/>
+                    </div>
+                </div>
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value=""/></div>
+                    <div class="componentInvolved"><p:message id="confirmPasswordError" for="involvedConfirmPassword" /></div>
+                </div><br/>
+
+                <!--*************** BUTTON *************** -->
+                <div class="pairInvolved">
+                    <div class="componentInvolved"><p:outputLabel value=""/></div>
+                    <div class="componentInvolved"><h:commandButton value="#{i18n.involvedButton}"  action="#{userController.create}"/></div>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:composition>
+</html>

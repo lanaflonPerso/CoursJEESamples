@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StationTypeViewDlg" widgetVar="StationTypeViewDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.ViewStationTypeTitle}">
+
+            <h:form id="StationTypeViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{stationTypeController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewStationTypeLabel_stationTypeID}"/>
+                        <h:outputText value="#{stationTypeController.selected.stationTypeID}" title="#{bundle.ViewStationTypeTitle_stationTypeID}"/>
+
+                        <h:outputText value="#{bundle.ViewStationTypeLabel_typeName}"/>
+                        <h:outputText value="#{stationTypeController.selected.typeName}" title="#{bundle.ViewStationTypeTitle_typeName}"/>
+
+                
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="StationTypeViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

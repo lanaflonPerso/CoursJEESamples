@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeBean.locale}">
+        <h:head>
+            <meta charset="utf-8" />
+            <title><ui:insert name="pageTitle">Default Title</ui:insert></title>
+
+            <h:outputStylesheet library="css" name="refineslide.css"/>
+            <h:outputStylesheet library="css" name="main_style.css"/>
+            <h:outputStylesheet library="css" name="refineslide-theme-dark.css"/>
+         
+
+            <h:outputScript library="js" name="modernizr.js"/>
+            <h:outputScript library="js" name="jquery.refineslide.js"/>
+            <h:outputScript library="js" name="loginDialog.js"/>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"/>
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript">google.load('visualization', '1', {packages: ['annotatedtimeline']});</script>
+            <h:outputScript library="js" name="mapSeeData.js" />
+            <!--            <h:outputScript library="js" name="privateMenu.js"/>-->
+            <h:outputScript library="js" name="loginForIE7.js"/>
+
+            <!-- ************** NECESSARY TO DISPLAY THE IMAGES VIEWER IN PUBLIC HOMEPAGE -->
+            <h:outputScript library="js" name="homepagePicturesViewer.js"/>
+            <!-- for media queries compatibility with ie7 and ie8 -->
+            <h:outputScript library="js" name="respond.js"/>
+            <h:outputScript library="js" name="detectNavigator.js" />
+        </h:head>
+
+        <h:body>
+
+            <div id="layoutPage" class="layout">
+                <div id="divPage" class="divBorder divMainPart">
+                    <div id="layoutTop" class="layout">
+                        <ui:insert name="pageHeader" >
+                            <ui:include src="/template/commonTemplateHeader.xhtml" />
+                        </ui:insert>
+                    </div>
+                    <c:if test="#{credentialBean.loggedIn}">
+                        <div id="layoutMenu" class="layout">
+                            <ui:insert name="pagePrivateMenu" >
+                                <ui:include src="/template/commonTemplatePrivateMenu.xhtml" />
+                            </ui:insert>
+                        </div>
+                    </c:if>
+                    <c:if test="#{credentialBean.loggedIn}">
+                        <div id="layoutBodyForMenu" class="layout">
+                            <ui:insert name="pageBody" >
+                                <ui:include src="/template/commonTemplateBody.xhtml" />
+                            </ui:insert>
+                        </div>
+                    </c:if>
+                    <c:if test="#{!credentialBean.loggedIn}">
+                        <div id="layoutBody" class="layout">
+                            <ui:insert name="pageBody" >
+                                <ui:include src="/template/commonTemplateBody.xhtml" />
+                            </ui:insert>
+                        </div>
+                    </c:if>
+                    <div style="clear:both;"></div>
+                    <div id="layoutFooter" class="layout">
+                        <ui:insert name="pageFooter" >
+                            <ui:include src="/template/commonTemplateFooter.xhtml" />
+                        </ui:insert>
+                    </div>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>
